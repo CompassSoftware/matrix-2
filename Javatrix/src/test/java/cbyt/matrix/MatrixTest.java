@@ -39,10 +39,14 @@ public class MatrixTest extends TestCase {
         double[][] A = {{1, 2, 3}, {1, 2, 3}, {1, 2, 3}};
         Matrix m = new Matrix(A);
         assertEquals(m.getMatrix(), A);
+        assertEquals(m.getRowLength(), 3);
+        assertEquals(m.getColLength(), 3);
         A = new double[0][0];
         m = new Matrix(A);
-        assertNull(A);
+        assertNotNull(A);
         assertNull(m.getMatrix());
+        assertNull(m.getRowLength());
+        assertNull(m.getColLength());
     }
 
     public void testConstructor2() {
