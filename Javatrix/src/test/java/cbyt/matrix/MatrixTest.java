@@ -55,7 +55,7 @@ public class MatrixTest extends TestCase {
 
     public void testConstructor5() {
         double[][] A = {{3,3},{3,3},{3,3}};
-        Matrix m = new Matrix(3, 3, 3.0);
+        Matrix m = new Matrix(3, 2, 3.0);
         assertEquals(A, m.getMatrix());
         assertEquals(3, m.getRowLength());
         assertEquals(2, m.getColLength());
