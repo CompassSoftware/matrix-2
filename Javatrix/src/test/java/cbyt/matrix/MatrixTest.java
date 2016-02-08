@@ -57,4 +57,10 @@ public class MatrixTest extends TestCase {
         // TODO: Write tests...
     }
 
+    public void testGetMatrix() {
+        double[][] A = {{1,2,3},{1,2,3},{1,2,3}};
+        Matrix m = new Matrix(A);
+        assertEquals(A, m.getMatrix());
+    }
+
 }
