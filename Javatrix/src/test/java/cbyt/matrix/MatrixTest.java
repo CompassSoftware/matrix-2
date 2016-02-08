@@ -43,6 +43,12 @@ public class MatrixTest extends TestCase {
 
     public void testConstructor2() {
         // TODO: Write tests...
+        double[][] A = {{},{},{}};
+        int row = 3;
+        int col = 3;
+        Matrix m = new Matrix(A, row, col);
+        assertEquals(m.getMatrix(), A);
+
     }
 
     public void testConstructor3() {
