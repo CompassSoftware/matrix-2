@@ -58,7 +58,11 @@ public class MatrixTest extends TestCase {
     }
 
     public void testConstructor5() {
-        // TODO: Write tests...
+        double[][] A = {{3,3},{3,3},{3,3}};
+        Matrix m = new Matrix(3, 2, 3.0);
+        assertEquals(A, m.getMatrix());
+        assertEquals(3, m.getRowLength());
+        assertEquals(2, m.getColLength());
     }
 
     public void testGetMatrix() {
@@ -67,4 +71,13 @@ public class MatrixTest extends TestCase {
         assertEquals(A, m.getMatrix());
     }
 
+    public void testGetRowLength() {
+        Matrix m = new Matrix(3, 2);
+        assertEquals(3, m.getRowLength());
+    }
+
+    public void testGetColLength() {
+        Matrix m = new Matrix(3, 2);
+        assertEquals(2, m.getColLength());
+    }
 }
