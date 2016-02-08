@@ -123,7 +123,7 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * Return the 2d array for the internal matrix values.
      * @return   The internal 2d array of the matrix object
      */
-    public double[][] getMatrix(){
+    public double[][] getMatrix() {
       return this.matrix;
     }
 }
