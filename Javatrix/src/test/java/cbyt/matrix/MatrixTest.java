@@ -56,6 +56,9 @@ public class MatrixTest extends TestCase {
         int col = 3;
         Matrix m = new Matrix(A, row, col);
         assertEquals(m.getMatrix(), A);
+        assertEquals(m.getRowLength(), A);
+        assertEquals(m.getColLength(), A);
+        
 
     }
 
