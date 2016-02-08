@@ -126,4 +126,20 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     public double[][] getMatrix(){
       return this.matrix;
     }
+
+    /**
+     * Getter for the row length internal.
+     * @return   Int: Value of row_length
+     */
+    public int getRowLength(){
+        return this.row_length;
+    }
+
+    /**
+     * Getter for the col length internal.
+     * @return    Int: Value fo col_length
+     */
+    public int getColLength(){
+        return this.col_length;
+    }
 }
