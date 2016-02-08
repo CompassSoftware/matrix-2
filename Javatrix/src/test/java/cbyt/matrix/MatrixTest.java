@@ -38,7 +38,11 @@ public class MatrixTest extends TestCase {
     public void testConstructor1() {
         double[][] A = {{1, 2, 3}, {1, 2, 3}, {1, 2, 3}};
         Matrix m = new Matrix(A);
-        // TODO: Write tests...
+        assertEquals(m.getMatrix(), A);
+        A = new double[0][0];
+        m = new Matrix(A);
+        assertNull(A);
+        assertNull(m.getMatrix());
     }
 
     public void testConstructor2() {
