@@ -110,6 +110,7 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @param   s Fill the matrix with this scalar value.
      */
     public Matrix(int m, int n, double s) {
+        this.matrix = new double[i][j];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 this.matrix[i][j] = s;
