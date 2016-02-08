@@ -97,10 +97,16 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @param   m Number of rows.
      * @param   n Number of columns.
      */
-    public Matrix(int m, int n) {
-        this.matrix = new double[m][n];
-        this.row_length = m;
-        this.col_length = n;
+    public Matrix(int m, int n) throws java.lang.IllegalArgumentException{
+        if (m > 0 && n > 0) {
+            this.matrix = new double[m][n];
+            this.row_length = m;
+            this.col_length = n;
+        } else {
+          throw new java.lang.IllegalArgumentException(
+              "Parameters must be greater than 0"
+          );
+      }
     }
 
     /**
