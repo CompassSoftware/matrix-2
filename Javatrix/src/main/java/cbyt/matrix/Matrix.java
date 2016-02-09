@@ -56,6 +56,11 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
             this.col_length = this.matrix.length;
             this.row_length = ((this.col_length > 0) ? this.matrix[0].length : 0);
         }
+        else if (A.length == 0) {
+            this.matrix = new double[0][0];
+            this.row_length = 0;
+            this.col_length = 0;
+        }
     }
 
     /**

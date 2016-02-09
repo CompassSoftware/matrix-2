@@ -47,10 +47,11 @@ public class MatrixTest extends TestCase {
         assertEquals(m.getColLength(), 3);
         A = new double[0][0];
         m = new Matrix(A);
-        assertNotNull(A);
-        assertNull(m.getMatrix());
-        assertNull(m.getRowLength());
-        assertNull(m.getColLength());
+        assertTrue(
+            Arrays.deepEquals(A, m.getMatrix())
+        );
+        assertEquals(m.getRowLength(), 0);
+        assertEquals(m.getColLength(), 0);
     }
 
     public void testConstructor2() {
