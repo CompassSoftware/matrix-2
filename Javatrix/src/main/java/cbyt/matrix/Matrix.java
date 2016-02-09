@@ -64,7 +64,15 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @param   m Number of rows.
      * @param   n Number of columns.
      */
-    public Matrix(double[][] A, int m, int n) {
+    public Matrix(double[][] A, int m, int n) throws java.lang.IllegalArgumentException {
+        if(m < 0)
+          throw new java.lang.IllegalArgumentException(
+                  "Row dimension must be non-negative"
+              );
+        if(n < 0)
+          throw new java.lang.IllegalArgumentException(
+                  "Col dimension must be non-negative"
+              );
         this.matrix = A;
         this.row_length = m;
         this.col_length = n;
@@ -76,6 +84,10 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @param   m    Number of rows.
      */
     public Matrix(double[] vals, int m) throws java.lang.IllegalArgumentException {
+        if(m < 0)
+          throw new java.lang.IllegalArgumentException(
+                  "Row dimension must be non-negative"
+              );
         if ((vals.length % m) == 0) {
             int split = (m != 0 ? (vals.length / m) : 0);
             for (int i = 0; i < m; i++) {
@@ -97,7 +109,15 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @param   m Number of rows.
      * @param   n Number of columns.
      */
-    public Matrix(int m, int n) {
+    public Matrix(int m, int n) throws java.lang.IllegalArgumentException {
+        if(m < 0)
+          throw new java.lang.IllegalArgumentException(
+                  "Row dimension must be non-negative"
+              );
+        if(n < 0)
+          throw new java.lang.IllegalArgumentException(
+                  "Col dimension must be non-negative"
+              );
         this.matrix = new double[m][n];
         this.row_length = m;
         this.col_length = n;
@@ -109,8 +129,16 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @param   n Number of columns.
      * @param   s Fill the matrix with this scalar value.
      */
-    public Matrix(int m, int n, double s) {
-        this.matrix = new double[i][j];
+    public Matrix(int m, int n, double s) throws java.lang.IllegalArgumentException {
+        if(m < 0)
+          throw new java.lang.IllegalArgumentException(
+                  "Row dimension must be non-negative"
+              );
+        if(n < 0)
+          throw new java.lang.IllegalArgumentException(
+                  "Col dimension must be non-negative"
+              );
+        this.matrix = new double[m][n];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 this.matrix[i][j] = s;
