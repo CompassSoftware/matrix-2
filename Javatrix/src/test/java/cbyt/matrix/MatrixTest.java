@@ -1,5 +1,7 @@
 package cbyt.matrix;
 
+import java.util.Arrays;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -38,7 +40,9 @@ public class MatrixTest extends TestCase {
     public void testConstructor1() {
         double[][] A = {{1, 2, 3}, {1, 2, 3}, {1, 2, 3}};
         Matrix m = new Matrix(A);
-        assertEquals(m.getMatrix(), A);
+        assertTrue(
+            Arrays.deepEquals(A, m.getMatrix())
+        );
         assertEquals(m.getRowLength(), 3);
         assertEquals(m.getColLength(), 3);
         A = new double[0][0];
@@ -64,7 +68,9 @@ public class MatrixTest extends TestCase {
     public void testConstructor5() {
         double[][] A = {{3,3},{3,3},{3,3}};
         Matrix m = new Matrix(3, 2, 3.0);
-        assertEquals(A, m.getMatrix());
+        assertTrue(
+            Arrays.deepEquals(A, m.getMatrix())
+        );
         assertEquals(3, m.getRowLength());
         assertEquals(2, m.getColLength());
     }
@@ -73,6 +79,9 @@ public class MatrixTest extends TestCase {
         double[][] A = {{1,2,3},{1,2,3},{1,2,3}};
         Matrix m = new Matrix(A);
         assertEquals(A, m.getMatrix());
+        assertTrue(
+            Arrays.deepEquals(A, m.getMatrix())
+        );
     }
 
     public void testGetRowLength() {
