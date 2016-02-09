@@ -55,12 +55,13 @@ public class MatrixTest extends TestCase {
     }
 
     public void testConstructor2() {
-        // TODO: Write tests...
-        double[][] A = {{},{},{}};
+        double[][] A = {{1,2,3},{1,2,3},{1,2,3}};
         int row = 3;
         int col = 3;
         Matrix m = new Matrix(A, row, col);
-        assertEquals(m.getMatrix(), A);
+        assertTrue(
+            Arrays.deepEquals(A, m.getMatrix())
+        );
         assertEquals(m.getRowLength(), row);
         assertEquals(m.getColLength(), col);
 

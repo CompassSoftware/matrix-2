@@ -78,7 +78,12 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
             throw new java.lang.IllegalArgumentException(
                 "Col dimension must be non-negative"
             );
-        this.matrix = A;
+        this.matrix = new double[m][n];
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+              this.matrix[i][j] = A[i][j];
+            }
+        }
         this.row_length = m;
         this.col_length = n;
     }
