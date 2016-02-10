@@ -137,9 +137,13 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
                 "Col dimension must be non-negative"
             );
         this.matrix = new double[m][n];
-
         this.rowLength = m;
         this.colLength = n;
+        for (int i = 0; i < m; i++) {
+          for (int j = 0; j < n; j++) {
+            this.matrix[i][j] = 0;
+          }
+        }
     }
 
     /**
