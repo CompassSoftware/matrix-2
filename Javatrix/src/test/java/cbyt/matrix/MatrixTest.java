@@ -50,7 +50,6 @@ public class MatrixTest extends TestCase {
     }
 
     public void testConstructor2() {
-        // TODO: Write tests...
         double[][] A = {{},{},{}};
         int row = 3;
         int col = 3;
@@ -58,7 +57,7 @@ public class MatrixTest extends TestCase {
         assertEquals(m.getMatrix(), A);
         assertEquals(m.getRowLength(), row);
         assertEquals(m.getColLength(), col);
-
+        
 
     }
 
