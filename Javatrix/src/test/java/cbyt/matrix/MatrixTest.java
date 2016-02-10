@@ -123,8 +123,13 @@ public class MatrixTest extends TestCase {
     }
 
     public void testIdentity() {
-        double[][] A = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
-        Matrix m = Matrix.identity(3, 3);
+        double[][] A = {{1, 0}, {0, 1}};
+        Matrix m = Matrix.identity(2, 2);
+        assertTrue(Arrays.deepEquals(A, m.getMatrix()));
+        assertEquals(2, m.getRowLength());
+        assertEquals(2, m.getColLength());
+        A = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+        m = Matrix.identity(3, 3);
         assertTrue(Arrays.deepEquals(A, m.getMatrix()));
         assertEquals(3, m.getRowLength());
         assertEquals(3, m.getColLength());
