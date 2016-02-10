@@ -114,4 +114,8 @@ public class MatrixTest extends TestCase {
         Matrix m = new Matrix(3, 2);
         assertEquals(2, m.getColLength());
     }
+
+    public void testCopy() {
+      
+    }
 }
