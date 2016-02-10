@@ -83,7 +83,11 @@ public class MatrixTest extends TestCase {
     }
 
     public void testConstructor4() {
-        // TODO: Write tests...
+        int row = 4;
+        int col = 5;
+        Matrix m = new Matrix(row, col);
+        assertEquals(row, m.getRowLength());
+        assertEquals(col, m.getColLength());
     }
 
     public void testConstructor5() {

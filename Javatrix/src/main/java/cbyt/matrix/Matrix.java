@@ -126,6 +126,7 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @param   m Number of rows.
      * @param   n Number of columns.
      */
+
     public Matrix(int m, int n) throws java.lang.IllegalArgumentException {
         if(m < 0)
             throw new java.lang.IllegalArgumentException(
@@ -138,6 +139,11 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         this.matrix = new double[m][n];
         this.rowLength = m;
         this.colLength = n;
+        for (int i = 0; i < m; i++) {
+          for (int j = 0; j < n; j++) {
+            this.matrix[i][j] = 0;
+          }
+        }
     }
 
     /**
