@@ -27,12 +27,12 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     /**
      * Matrix row length.
      */
-    private int row_length;
+    private int rowLength;
 
     /**
      * Matrix column length.
      */
-    private int col_length;
+    private int colLength;
 
     /**
      * Construct a matrix from a 2-D array.
@@ -53,13 +53,13 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
                 }
             }
             this.matrix = A;
-            this.col_length = this.matrix.length;
-            this.row_length = ((this.col_length > 0) ? this.matrix[0].length : 0);
+            this.colLength = this.matrix.length;
+            this.rowLength = ((this.colLength > 0) ? this.matrix[0].length : 0);
         }
         else if (A.length == 0) {
             this.matrix = new double[0][0];
-            this.row_length = 0;
-            this.col_length = 0;
+            this.rowLength = 0;
+            this.colLength = 0;
         }
     }
 
@@ -84,8 +84,8 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
               this.matrix[i][j] = A[i][j];
             }
         }
-        this.row_length = m;
-        this.col_length = n;
+        this.rowLength = m;
+        this.colLength = n;
     }
 
     /**
@@ -107,8 +107,8 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
                         this.matrix[i][j] = vals[(i + (j * m))];
                     }
                 }
-                this.row_length = m;
-                this.col_length = split;
+                this.rowLength = m;
+                this.colLength = split;
             } else {
                 throw new java.lang.IllegalArgumentException(
                     "Array length must be a multiple of m"
@@ -116,8 +116,8 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
             }
         } else {
             this.matrix = new double[0][0];
-            this.row_length = 0;
-            this.col_length = 0;
+            this.rowLength = 0;
+            this.colLength = 0;
         }
     }
 
@@ -137,13 +137,9 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
                 "Col dimension must be non-negative"
             );
         this.matrix = new double[m][n];
-        this.row_length = m;
-        this.col_length = n;
-        for (int i = 0; i < m; i++) {
-          for (int j = 0; j < n; j++){
-            this.matrix[i][j] = 0;
-          }
-        }
+
+        this.rowLength = m;
+        this.colLength = n;
     }
 
     /**
@@ -167,8 +163,8 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
                 this.matrix[i][j] = s;
             }
         }
-        this.row_length = m;
-        this.col_length = n;
+        this.rowLength = m;
+        this.colLength = n;
     }
 
     /**
@@ -181,17 +177,17 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
 
     /**
      * Getter for the row length internal.
-     * @return   Int: Value of row_length
+     * @return   Int: Value of rowLength
      */
     public int getRowLength(){
-        return this.row_length;
+        return this.rowLength;
     }
 
     /**
      * Getter for the col length internal.
-     * @return    Int: Value fo col_length
+     * @return    Int: Value fo colLength
      */
     public int getColLength(){
-        return this.col_length;
+        return this.colLength;
     }
 }
