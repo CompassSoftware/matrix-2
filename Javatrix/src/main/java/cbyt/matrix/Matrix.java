@@ -188,4 +188,12 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     public int getColLength(){
         return this.col_length;
     }
+
+    /**
+    * Make a deep copy of a matrix.
+    * @return   Matrix: a copy of original matrix.
+    */
+    public Matrix copy() {
+        
+    }
 }
