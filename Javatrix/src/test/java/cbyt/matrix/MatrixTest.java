@@ -134,6 +134,9 @@ public class MatrixTest extends TestCase {
         assertEquals(2, m.getColDimension());
     }
 
+    public void testCopy() {
+    }
+
     public void testIdentity() {
         double[][] A = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
         Matrix m = Matrix.identity(3, 3);
