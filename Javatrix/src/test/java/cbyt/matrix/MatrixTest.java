@@ -83,7 +83,11 @@ public class MatrixTest extends TestCase {
     }
 
     public void testConstructor4() {
-        // TODO: Write tests...
+        int row = 4;
+        int col = 5;
+        Matrix m = new Matrix(row, col);
+        assertEquals(row, m.getRowDimension());
+        assertEquals(col, m.getColDimension());
     }
 
     public void testConstructor5() {
@@ -128,5 +132,18 @@ public class MatrixTest extends TestCase {
     public void testGetColDimension() {
         Matrix m = new Matrix(3, 2);
         assertEquals(2, m.getColDimension());
+    }
+
+    public void testIdentity() {
+        double[][] A = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+        Matrix m = Matrix.identity(3, 3);
+        assertTrue(Arrays.deepEquals(A, m.getArray()));
+        assertEquals(3, m.getRowDimension());
+        assertEquals(3, m.getColDimension());
+        A = new double[0][0];
+        m = Matrix.identity(0, 0);
+        assertTrue(Arrays.deepEquals(A, m.getArray()));
+        assertEquals(0, m.getRowDimension());
+        assertEquals(0, m.getColDimension());
     }
 }
