@@ -98,19 +98,26 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
             throw new java.lang.IllegalArgumentException(
                 "Row dimension must be non-negative"
             );
-        if ((vals.length % m) == 0) {
-            int split = (m != 0 ? (vals.length / m) : 0);
-            for (int i = 0; i < m; i++) {
-                for (int j = 0; j < split; j++) {
-                    this.matrix[i][j] = vals[(i + (j * m))];
+        if (vals.length > 0) {
+            if ((vals.length % m) == 0) {
+                int split = (m != 0 ? (vals.length / m) : 0);
+                this.matrix = new double[split][m];
+                for (int i = 0; i < m; i++) {
+                    for (int j = 0; j < split; j++) {
+                        this.matrix[i][j] = vals[(i + (j * m))];
+                    }
                 }
+                this.row_length = m;
+                this.col_length = split;
+            } else {
+                throw new java.lang.IllegalArgumentException(
+                    "Array length must be a multiple of m"
+                );
             }
-            this.row_length = m;
-            this.col_length = split;
         } else {
-            throw new java.lang.IllegalArgumentException(
-                "Array length must be a multiple of m"
-            );
+            this.matrix = new double[0][0];
+            this.row_length = 0;
+            this.col_length = 0;
         }
     }
 

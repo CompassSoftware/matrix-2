@@ -65,7 +65,21 @@ public class MatrixTest extends TestCase {
     }
 
     public void testConstructor3() {
-        // TODO: Write tests...
+        double[] A = {1, 2, 3, 1, 2, 3, 1, 2, 3};
+        double[][] matrixResult = {{1, 1, 1}, {2, 2, 2}, {3, 3, 3}};
+        int split = 3;
+        Matrix m = new Matrix(A, split);
+        assertTrue(Arrays.deepEquals(matrixResult, m.getMatrix()));
+        assertEquals(m.getRowLength(), 3);
+        assertEquals(m.getColLength(), 3);
+        A = new double[0];
+        matrixResult = new double[0][0];
+        split = 0;
+        m = new Matrix(A, split);
+        assertTrue(Arrays.deepEquals(matrixResult, m.getMatrix()));
+        assertEquals(m.getRowLength(), 0);
+        assertEquals(m.getColLength(), 0);
+
     }
 
     public void testConstructor4() {
