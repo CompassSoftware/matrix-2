@@ -114,4 +114,17 @@ public class MatrixTest extends TestCase {
         Matrix m = new Matrix(3, 2);
         assertEquals(2, m.getColLength());
     }
+
+    public void testIdentity() {
+        double[][] A = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+        Matrix m = Matrix.identity(3, 3);
+        assertTrue(Arrays.deepEquals(A, m.getMatrix()));
+        assertEquals(3, m.getRowLength());
+        assertEquals(3, m.getColLength());
+        A = new double[0][0];
+        m = Matrix.identity(0, 0);
+        assertTrue(Arrays.deepEquals(A, m.getMatrix()));
+        assertEquals(0, m.getRowLength());
+        assertEquals(0, m.getColLength());
+    }
 }
