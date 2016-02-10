@@ -56,6 +56,11 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
             this.col_length = this.matrix.length;
             this.row_length = ((this.col_length > 0) ? this.matrix[0].length : 0);
         }
+        else if (A.length == 0) {
+            this.matrix = new double[0][0];
+            this.row_length = 0;
+            this.col_length = 0;
+        }
     }
 
     /**
@@ -64,8 +69,21 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @param   m Number of rows.
      * @param   n Number of columns.
      */
-    public Matrix(double[][] A, int m, int n) {
-        this.matrix = A;
+    public Matrix(double[][] A, int m, int n) throws java.lang.IllegalArgumentException {
+        if(m < 0)
+            throw new java.lang.IllegalArgumentException(
+                "Row dimension must be non-negative"
+            );
+        if(n < 0)
+            throw new java.lang.IllegalArgumentException(
+                "Col dimension must be non-negative"
+            );
+        this.matrix = new double[m][n];
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+              this.matrix[i][j] = A[i][j];
+            }
+        }
         this.row_length = m;
         this.col_length = n;
     }
@@ -76,6 +94,10 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @param   m    Number of rows.
      */
     public Matrix(double[] vals, int m) throws java.lang.IllegalArgumentException {
+        if(m < 0)
+            throw new java.lang.IllegalArgumentException(
+                "Row dimension must be non-negative"
+            );
         if ((vals.length % m) == 0) {
             int split = (m != 0 ? (vals.length / m) : 0);
             for (int i = 0; i < m; i++) {
@@ -97,6 +119,7 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @param   m Number of rows.
      * @param   n Number of columns.
      */
+<<<<<<< HEAD
     public Matrix(int m, int n) throws java.lang.IllegalArgumentException{
         if (m > 0 && n > 0) {
             this.matrix = new double[m][n];
@@ -107,6 +130,20 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
               "Parameters must be greater than 0"
           );
       }
+=======
+    public Matrix(int m, int n) throws java.lang.IllegalArgumentException {
+        if(m < 0)
+            throw new java.lang.IllegalArgumentException(
+                "Row dimension must be non-negative"
+            );
+        if(n < 0)
+            throw new java.lang.IllegalArgumentException(
+                "Col dimension must be non-negative"
+            );
+        this.matrix = new double[m][n];
+        this.row_length = m;
+        this.col_length = n;
+>>>>>>> 7d567b57c74325515901186f64b50f9963c99a84
     }
 
     /**
@@ -115,8 +152,16 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @param   n Number of columns.
      * @param   s Fill the matrix with this scalar value.
      */
-    public Matrix(int m, int n, double s) {
-        this.matrix = new double[i][j];
+    public Matrix(int m, int n, double s) throws java.lang.IllegalArgumentException {
+        if(m < 0)
+            throw new java.lang.IllegalArgumentException(
+                "Row dimension must be non-negative"
+            );
+        if(n < 0)
+            throw new java.lang.IllegalArgumentException(
+                "Col dimension must be non-negative"
+            );
+        this.matrix = new double[m][n];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 this.matrix[i][j] = s;
