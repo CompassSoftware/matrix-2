@@ -126,6 +126,7 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @param   m Number of rows.
      * @param   n Number of columns.
      */
+
     public Matrix(int m, int n) throws java.lang.IllegalArgumentException {
         if(m < 0)
             throw new java.lang.IllegalArgumentException(
@@ -138,6 +139,11 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         this.matrix = new double[m][n];
         this.rowLength = m;
         this.colLength = n;
+        for (int i = 0; i < m; i++) {
+          for (int j = 0; j < n; j++) {
+            this.matrix[i][j] = 0;
+          }
+        }
     }
 
     /**
@@ -194,6 +200,33 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     * @return   Matrix: a copy of original matrix.
     */
     public Matrix copy() {
-        
+
     }
+    
+    /*
+     * Generate identity matrix.
+     * @param   m Number of rows.
+     * @param   n Number of columns.
+     * @return  An m-by-n matrix with ones on the diagonal and zeros elseware.
+     */
+    public static Matrix identity(int m, int n) throws java.lang.IllegalArgumentException {
+        if (m < 0) {
+            throw new java.lang.IllegalArgumentException(
+                "Row dimension must be non-negative"
+            );
+        }
+        if (n < 0) {
+            throw new java.lang.IllegalArgumentException(
+                "Column dimension must be non-negative"
+            );
+        }
+        double[][] A = new double[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                A[i][j] = ((i == j) ? 1 : 0);
+            }
+        }
+        return new Matrix(A);
+    }
+
 }
