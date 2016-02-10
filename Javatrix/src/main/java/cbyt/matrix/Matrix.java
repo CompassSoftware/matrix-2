@@ -94,10 +94,11 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @param   m    Number of rows.
      */
     public Matrix(double[] vals, int m) throws java.lang.IllegalArgumentException {
-        if(m < 0)
+        if(m < 0) {
             throw new java.lang.IllegalArgumentException(
                 "Row dimension must be non-negative"
             );
+        }
         if (vals.length > 0) {
             if ((vals.length % m) == 0) {
                 int split = (m != 0 ? (vals.length / m) : 0);
@@ -169,15 +170,29 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * Return the 2d array for the internal matrix values.
      * @return   The internal 2d array of the matrix object
      */
-    public double[][] getMatrix(){
+    public double[][] getArray(){
         return this.matrix;
+    }
+
+    /**
+     * Returns a deep copy of the indernal 2d array.
+     * @return   2d array of doubles
+     */
+    public double[][] getArrayCopy(){
+        double[][] A = new double[rowLength][colLength];
+        for (int i = 0; i < rowLength; i++) {
+            for (int j = 0; j < colLength; j++) {
+              A[i][j] = this.matrix[i][j];
+            }
+        }
+        return A;
     }
 
     /**
      * Getter for the row length internal.
      * @return   Int: Value of rowLength
      */
-    public int getRowLength(){
+    public int getRowDimension(){
         return this.rowLength;
     }
 
@@ -185,7 +200,15 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * Getter for the col length internal.
      * @return    Int: Value fo colLength
      */
-    public int getColLength(){
+    public int getColDimension(){
         return this.colLength;
+    }
+
+    /**
+     * Fetchs a single element of index i by j
+     * @return     Double of row i and column j
+     */
+    public double get(int i, int j){
+        return this.matrix[i][j];
     }
 }

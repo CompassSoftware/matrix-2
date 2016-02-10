@@ -41,17 +41,17 @@ public class MatrixTest extends TestCase {
         double[][] A = {{1, 2, 3}, {1, 2, 3}, {1, 2, 3}};
         Matrix m = new Matrix(A);
         assertTrue(
-            Arrays.deepEquals(A, m.getMatrix())
+            Arrays.deepEquals(A, m.getArray())
         );
-        assertEquals(m.getRowLength(), 3);
-        assertEquals(m.getColLength(), 3);
+        assertEquals(m.getRowDimension(), 3);
+        assertEquals(m.getColDimension(), 3);
         A = new double[0][0];
         m = new Matrix(A);
         assertTrue(
-            Arrays.deepEquals(A, m.getMatrix())
+            Arrays.deepEquals(A, m.getArray())
         );
-        assertEquals(m.getRowLength(), 0);
-        assertEquals(m.getColLength(), 0);
+        assertEquals(m.getRowDimension(), 0);
+        assertEquals(m.getColDimension(), 0);
     }
 
     public void testConstructor2() {
@@ -60,7 +60,7 @@ public class MatrixTest extends TestCase {
         int col = 3;
         Matrix m = new Matrix(A, row, col);
         assertTrue(
-            Arrays.deepEquals(A, m.getMatrix())
+            Arrays.deepEquals(A, m.getArray())
         );
     }
 
@@ -69,16 +69,16 @@ public class MatrixTest extends TestCase {
         double[][] matrixResult = {{1, 1, 1}, {2, 2, 2}, {3, 3, 3}};
         int split = 3;
         Matrix m = new Matrix(A, split);
-        assertTrue(Arrays.deepEquals(matrixResult, m.getMatrix()));
-        assertEquals(m.getRowLength(), 3);
-        assertEquals(m.getColLength(), 3);
+        assertTrue(Arrays.deepEquals(matrixResult, m.getArray()));
+        assertEquals(m.getRowDimension(), 3);
+        assertEquals(m.getColDimension(), 3);
         A = new double[0];
         matrixResult = new double[0][0];
         split = 0;
         m = new Matrix(A, split);
-        assertTrue(Arrays.deepEquals(matrixResult, m.getMatrix()));
-        assertEquals(m.getRowLength(), 0);
-        assertEquals(m.getColLength(), 0);
+        assertTrue(Arrays.deepEquals(matrixResult, m.getArray()));
+        assertEquals(m.getRowDimension(), 0);
+        assertEquals(m.getColDimension(), 0);
 
     }
 
@@ -90,28 +90,43 @@ public class MatrixTest extends TestCase {
         double[][] A = {{3,3},{3,3},{3,3}};
         Matrix m = new Matrix(3, 2, 3.0);
         assertTrue(
-            Arrays.deepEquals(A, m.getMatrix())
+            Arrays.deepEquals(A, m.getArray())
         );
-        assertEquals(3, m.getRowLength());
-        assertEquals(2, m.getColLength());
+        assertEquals(3, m.getRowDimension());
+        assertEquals(2, m.getColDimension());
     }
 
-    public void testGetMatrix() {
+    public void testGetArray() {
         double[][] A = {{1,2,3},{1,2,3},{1,2,3}};
         Matrix m = new Matrix(A);
-        assertEquals(A, m.getMatrix());
+        assertEquals(A, m.getArray());
         assertTrue(
-            Arrays.deepEquals(A, m.getMatrix())
+            Arrays.deepEquals(A, m.getArray())
         );
     }
 
-    public void testGetRowLength() {
-        Matrix m = new Matrix(3, 2);
-        assertEquals(3, m.getRowLength());
+    public void testGetArrayCopy() {
+        double[][] A = {{1,2,3},{1,2,3},{1,2,3}};
+        Matrix m = new Matrix(A);
+        double[][] returnedA = m.getArrayCopy();
+        assertTrue(
+            Arrays.deepEquals(returnedA, A)
+        );
+        assertTrue(
+            Arrays.deepEquals(returnedA, m.getArray())
+        );
+        assertTrue(
+            returnedA != A
+        );
     }
 
-    public void testGetColLength() {
+    public void testGetRowDimension() {
         Matrix m = new Matrix(3, 2);
-        assertEquals(2, m.getColLength());
+        assertEquals(3, m.getRowDimension());
+    }
+
+    public void testGetColDimension() {
+        Matrix m = new Matrix(3, 2);
+        assertEquals(2, m.getColDimension());
     }
 }
