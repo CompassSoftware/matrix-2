@@ -83,11 +83,13 @@ public class MatrixTest extends TestCase {
     }
 
     public void testConstructor4() {
-        int row = 4;
-        int col = 5;
+        int row = 3;
+        int col = 3;
+        double[][] A = {{0,0,0},{0,0,0},{0,0,0}}
         Matrix m = new Matrix(row, col);
         assertEquals(row, m.getRowLength());
         assertEquals(col, m.getColLength());
+        assertTrue(Arrays.deepEquals(A, m.getMatrix()));
     }
 
     public void testConstructor5() {
