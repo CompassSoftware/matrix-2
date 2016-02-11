@@ -243,4 +243,19 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         }
         return new Matrix(A);
     }
+
+    /**
+    * Return a deep copy a matrix
+    * @return   A deep copy of a matrix
+    */
+    public Matrix copy() {
+        double[][] A = new double[rowLength][colLength];
+        for (int i = 0; i < rowLength; i++) {
+            for (int j = 0; j < colLength; j++) {
+                A[i][j] = this.matrix[i][j];
+            }
+        }
+        Matrix m = new Matrix(A, rowLength, colLength);
+        return m;
+    }
 }
