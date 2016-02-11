@@ -87,7 +87,7 @@ public class MatrixTest extends TestCase {
         int col = 3;
         double[][] A = {{0,0,0},{0,0,0},{0,0,0}};
         Matrix m = new Matrix(row, col);
-        assertTrue(Arrays.deepEquals(A, m.getMatrix()));
+        assertTrue(Arrays.deepEquals(A, m.getArray()));
         assertEquals(row, m.getRowDimension());
         assertEquals(col, m.getColDimension());
     }
@@ -165,5 +165,16 @@ public class MatrixTest extends TestCase {
         assertTrue(Arrays.deepEquals(A, m.getArray()));
         assertEquals(0, m.getRowDimension());
         assertEquals(0, m.getColDimension());
+    }
+
+    public void testRandom() {
+      Matrix m = Matrix.random(3, 3);
+      assertEquals(3, m.getRowDimension());
+      assertEquals(3, m.getColDimension());
+      for (int i = 0; i < 3; i++) {
+          for (int j = 0; j < 3; j++) {
+              assertNotNull(m.get(i, j));
+          }
+      }
     }
 }

@@ -3,7 +3,7 @@ package cbyt.matrix;
 import java.io.Serializable;
 import java.lang.Cloneable;
 import java.lang.IllegalArgumentException;
-
+import java.lang.Math;
 
 /**
  * Javatrix = Java Matrix class.
@@ -257,5 +257,29 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         }
         Matrix m = new Matrix(A, rowLength, colLength);
         return m;
+    }
+
+    /**
+    * Fill a matrix with random elements
+    * @return a matrix with random elements
+    */
+    public static Matrix random(int m, int n) throws java.lang.IllegalArgumentException {
+        if (m < 0) {
+            throw new java.lang.IllegalArgumentException(
+                "Row dimension must be non-negative"
+            );
+        }
+        if (n < 0) {
+            throw new java.lang.IllegalArgumentException(
+                "Column dimension must be non-negative"
+            );
+        }
+        double[][] A = new double[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                A[i][j] = Math.random();
+            }
+        }
+        return new Matrix(A);
     }
 }
