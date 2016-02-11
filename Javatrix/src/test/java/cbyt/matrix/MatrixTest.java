@@ -136,6 +136,19 @@ public class MatrixTest extends TestCase {
         assertEquals(2, m.getColDimension());
     }
 
+    public void testConstructWithCopy() {
+        double[][] A = {{1, 2, 3}, {1, 2, 3}, {1, 2, 3}};
+        Matrix m = Matrix.constructWithCopy(A);
+        assertTrue(Arrays.deepEquals(A, m.getArray()));
+        assertEquals(3, m.getRowDimension());
+        assertEquals(3, m.getColDimension());
+        A = new double[0][0];
+        m = Matrix.constructWithCopy(A);
+        assertTrue(Arrays.deepEquals(A, m.getArray()));
+        assertEquals(0, m.getRowDimension());
+        assertEquals(0, m.getColDimension());
+    }
+
     public void testCopy() {
         int row = 3;
         int col = 3;
@@ -154,6 +167,21 @@ public class MatrixTest extends TestCase {
         assertTrue(Arrays.deepEquals(A, m.getArray()));
     }
 
+    public void testClone() {
+        double[][] A = {{1, 2, 3}, {1, 2, 3}, {1, 2, 3}};
+        Matrix m = new Matrix(A);
+        Object tmp = m.clone();
+        assertTrue(tmp instanceof Object);
+        Matrix m2 = (Matrix) tmp;
+        assertTrue(m2 instanceof Matrix);
+        assertTrue(Arrays.deepEquals(A, m.getArray()));
+        assertTrue(Arrays.deepEquals(m.getArray(), m2.getArray()));
+        assertEquals(3, m.getRowDimension());
+        assertEquals(3, m.getColDimension());
+        assertEquals(m.getRowDimension(), m2.getRowDimension());
+        assertEquals(m.getColDimension(), m2.getColDimension());
+    }
+
     public void testIdentity() {
         double[][] A = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
         Matrix m = Matrix.identity(3, 3);
@@ -168,13 +196,13 @@ public class MatrixTest extends TestCase {
     }
 
     public void testRandom() {
-      Matrix m = Matrix.random(3, 3);
-      assertEquals(3, m.getRowDimension());
-      assertEquals(3, m.getColDimension());
-      for (int i = 0; i < 3; i++) {
-          for (int j = 0; j < 3; j++) {
-              assertNotNull(m.get(i, j));
-          }
-      }
+        Matrix m = Matrix.random(3, 3);
+        assertEquals(3, m.getRowDimension());
+        assertEquals(3, m.getColDimension());
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                assertNotNull(m.get(i, j));
+            }
+        }
     }
 }

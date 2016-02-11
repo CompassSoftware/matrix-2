@@ -245,6 +245,34 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     }
 
     /**
+     * Construct a matrix from a copy of a 2-D array.
+     * @param      A Two-dimensional array of doubles.
+     * @exception    IllegalArgumentException All rows must have the same length.
+     * @return       Matrix
+     */
+    public static Matrix constructWithCopy(double[][] A) throws java.lang.IllegalArgumentException {
+        if (A.length > 0) {
+            int rCount = A.length;
+            int cCount = A[0].length;
+            Matrix retn  = new Matrix(rCount, cCount);
+            double[][] arr = retn.getArray();
+            for (int i = 0; i < rCount; i++) {
+                if (A[i].length != cCount) {
+                    throw new java.lang.IllegalArgumentException(
+                        "All rows must have the same length."
+                    );
+                }
+                for (int j = 0; j < cCount; j++) {
+                    arr[i][j] = A[i][j];
+                }
+            }
+            return retn;
+        } else {
+            return new Matrix(0, 0);
+        }
+    }
+
+    /**
     * Return a deep copy a matrix
     * @return   A deep copy of a matrix
     */
@@ -257,6 +285,14 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         }
         Matrix m = new Matrix(A, rowLength, colLength);
         return m;
+    }
+
+    /**
+     * Clone the Matrix Object.
+     * @return Object.
+     */
+    public Object clone() {
+        return this.copy();
     }
 
     /**
