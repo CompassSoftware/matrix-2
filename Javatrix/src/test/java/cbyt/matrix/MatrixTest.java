@@ -137,6 +137,21 @@ public class MatrixTest extends TestCase {
     }
 
     public void testCopy() {
+        int row = 3;
+        int col = 3;
+        double[][] A = {{1,2,3},{1,2,3},{1,2,3}};
+        Matrix m = new Matrix(A, row, col);
+        Matrix copy = m.copy();
+        assertEquals(m.getColDimension(), copy.getColDimension());
+        assertEquals(m.getRowDimension(), copy.getRowDimension());
+        assertTrue(Arrays.deepEquals(A, m.getArray()));
+
+        A = new double[0][0];
+        m = new Matrix(A);
+        copy = m.copy();
+        assertEquals(m.getColDimension(), copy.getColDimension());
+        assertEquals(m.getRowDimension(), copy.getRowDimension());
+        assertTrue(Arrays.deepEquals(A, m.getArray()));
     }
 
     public void testIdentity() {
