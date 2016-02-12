@@ -219,4 +219,27 @@ public class MatrixTest extends TestCase {
             }
         }
     }
+
+    public void testGetMatrix2() {
+        double[][] A = {
+            {0, 1, 2, 3, 4},
+            {10,11,12,13,14},
+            {20,21,22,23,24},
+            {30,31,32,33,34},
+            {40,41,42,43,44}
+        };
+        double[][] target = {
+            {0, 2, 4},
+            {10,12,14},
+            {20,22,24}
+        };
+        Matrix m = new Matrix(A);
+        int i0 = 1;
+        int i1 = 3;
+        int[] c = {1, 3, 5};
+        Matrix sub = m.getMatrix(1, 3, c);
+        assertEquals(sub.getRowDimension(), i1 - i0 + 1);
+        assertEquals(sub.getColDimension(), c.length);
+        assertTrue(Arrays.deepEquals(sub.getArray(), target));
+    }
 }
