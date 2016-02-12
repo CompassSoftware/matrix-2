@@ -1,9 +1,14 @@
 package cbyt.matrix;
 
 import java.io.Serializable;
+import java.io.PrintWriter;
 import java.lang.Cloneable;
 import java.lang.IllegalArgumentException;
 import java.lang.Math;
+import java.text.NumberFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 /**
  * Javatrix = Java Matrix class.
@@ -395,7 +400,7 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     /**
      * Adding two matrices and return a matrix
      * @param  B a matrix
-     * @return   the resulting matrix 
+     * @return   the resulting matrix
      */
     public Matrix plus(Matrix B) {
         Matrix A = this;
@@ -406,5 +411,61 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
             }
         }
         return C;
+    }
+
+    /**
+     * Print the matrix to stdout. Line the elements up in columns with a Fortran-like `Fw.d` style format.
+     * @param  w Column width.
+     * @param  d Number of digits after the decimal.
+     */
+    public void print(int w, int d) {
+        this.print(new PrintWriter(System.out, true), w, d);
+    }
+
+    /**
+     * Print the matrix to the output stream. Line the elements up in columns with a Fortran-like 'Fw.d' style format.
+     * @param  output Output stream.
+     * @param  w      Column width.
+     * @param  d      Number of digits after the decimal.
+     */
+    public void print(PrintWriter output, int w, int d) {
+        DecimalFormat format = new DecimalFormat();
+        format.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
+        format.setMinimumIntegerDigits(1);
+        format.setMaximumFractionDigits(d);
+        format.setMinimumFractionDigits(d);
+        format.setGroupingUsed(false);
+        this.print(output, format, (w + 2));
+    }
+
+    /**
+     * Print the matrix to stdout. Line the elements up in columns. Use the format object, and right justify within columns of width characters. Note that is the matrix is to be read back in, you probably will want to use a NumberFormat that is set to US Locale.
+     * @param  format A Formatting object for individual elements.
+     * @param  width  Field width for each column.
+     */
+    public void print(NumberFormat format, int width) {
+        this.print(new PrintWriter(System.out, true), format, width);
+    }
+
+    /**
+     * Print the matrix to the output stream. Line the elements up in columns. Use the format object, and right justify within columns of width characters. Note that is the matrix is to be read back in, you probably will want to use a NumberFormat that is set to US Locale.
+     * @param  output The output stream.
+     * @param  format A formatting object to format the matrix elements.
+     * @param  width  Column width.
+     */
+    public void print(PrintWriter output, NumberFormat format, int width) {
+        output.println();
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
+                String element = format.format(this.matrix[i][j]);
+                int padding = Math.max(1, (width - element.length()));
+                for (int k = 0; k < padding; k++) {
+                    output.print(" ");
+                }
+                output.print(element);
+            }
+            output.println();
+        }
+        output.println();
     }
 }
