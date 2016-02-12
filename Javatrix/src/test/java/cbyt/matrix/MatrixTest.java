@@ -205,4 +205,18 @@ public class MatrixTest extends TestCase {
             }
         }
     }
+
+    public void testGetMatrix1() {
+        Matrix m = Matrix.random(5, 5);
+        int[] r = {1, 3, 5};
+        int[] c = {1, 3, 5};
+        Matrix sub = m.getMatrix(r, c);
+        assertEquals(sub.getRowDimension(), r.length);
+        assertEquals(sub.getColDimension(), c.length);
+        for (int i = 0; i < r.length; i++) {
+            for (int j = 0; j < c.length; j++) {
+              assertEquals(sub.get(i, j), m.get(r[i]-1, c[j]-1));
+            }
+        }
+    }
 }

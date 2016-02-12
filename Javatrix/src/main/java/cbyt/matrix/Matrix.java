@@ -218,6 +218,21 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         return this.matrix[i][j];
     }
 
+    /**
+     * Returns a submatrix mapped across rows in r and collumns in c.
+     * @return      New Matrix from mapped r and c
+     * TODO: Decide whether passed r and c values should start at 0 or 1
+     */
+    public Matrix getMatrix(int[] r, int[] c){
+        double[][] target = new double[r.length][c.length];
+        for (int i = 0; i < r.length; i++) {
+          for (int j = 0; j < c.length; j++) {
+            target[i][j] = this.matrix[r[i]-1][c[j]-1];
+          }
+        }
+        return new Matrix(target);
+    }
+
      /**
       * Generate identity matrix.
       * @param   m Number of rows.
