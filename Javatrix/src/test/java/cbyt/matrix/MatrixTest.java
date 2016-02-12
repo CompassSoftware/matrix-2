@@ -207,17 +207,25 @@ public class MatrixTest extends TestCase {
     }
 
     public void testGetMatrix1() {
-        Matrix m = Matrix.random(5, 5);
+        double[][] A = {
+            {0, 1, 2, 3, 4},
+            {10,11,12,13,14},
+            {20,21,22,23,24},
+            {30,31,32,33,34},
+            {40,41,42,43,44}
+        };
+        double[][] target = {
+            {0, 2, 4},
+            {20,22,24},
+            {40,42,44}
+        };
+        Matrix m = new Matrix(A);
         int[] r = {1, 3, 5};
         int[] c = {1, 3, 5};
         Matrix sub = m.getMatrix(r, c);
         assertEquals(sub.getRowDimension(), r.length);
         assertEquals(sub.getColDimension(), c.length);
-        for (int i = 0; i < r.length; i++) {
-            for (int j = 0; j < c.length; j++) {
-              assertEquals(sub.get(i, j), m.get(r[i]-1, c[j]-1));
-            }
-        }
+        assertTrue(Arrays.deepEquals(sub.getArray(), target));
     }
 
     public void testGetMatrix2() {
