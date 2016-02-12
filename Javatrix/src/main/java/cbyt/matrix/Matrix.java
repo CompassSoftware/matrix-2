@@ -301,6 +301,20 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         this.matrix[i][j] = s;
     }
 
+    /**
+     * Sets sub matrix mapped by values of r and c to s.
+     * @param    r array of target rows
+     * @param    c array of target columns
+     * @param    s target value
+     */
+    public void set(int[] r, int[] c, double s) {
+        for (int i: r) {
+            for (int j: c) {
+                this.matrix[i - 1][j - 1] = s;
+            }
+        }
+    }
+
      /**
       * Generate identity matrix.
       * @param   m Number of rows.
