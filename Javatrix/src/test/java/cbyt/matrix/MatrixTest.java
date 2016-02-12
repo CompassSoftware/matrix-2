@@ -353,14 +353,14 @@ public class MatrixTest extends TestCase {
             {7, 8, 9}
         };
         double [][] target = {
-            {0, 2, 0},
-            {4, 5, 6},
-            {0, 8, 0}
+            {1, 3},
+            {7, 9}
         };
         Matrix m = new Matrix(A);
+        Matrix X = new Matrix(2, 2);
         int[] r = {1, 3};
         int[] c = {1, 3};
-        m.set(r, c, 0);
-        assertTrue(Arrays.deepEquals(m.getArray(), target));
+        m.set(r, c, X);
+        assertTrue(Arrays.deepEquals(X.getArray(), target));
     }
 }

@@ -305,12 +305,12 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * Sets sub matrix mapped by values of r and c to s.
      * @param    r array of target rows
      * @param    c array of target columns
-     * @param    s target value
+     * @param    X new matrix
      */
-    public void set(int[] r, int[] c, double s) {
-        for (int i: r) {
-            for (int j: c) {
-                this.matrix[i - 1][j - 1] = s;
+    public void set(int[] r, int[] c, Matrix X) {
+        for (int i = 0; i < r.length; i++) {
+            for (int j = 0; j < c.length; j++) {
+                X.matrix[i][j] = this.matrix[r[i] - 1][c[j] - 1];
             }
         }
     }
@@ -419,7 +419,7 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     /**
      * Adding two matrices and return a matrix
      * @param  B a matrix
-     * @return   the resulting matrix 
+     * @return   the resulting matrix
      */
     public Matrix plus(Matrix B) {
         Matrix A = this;
