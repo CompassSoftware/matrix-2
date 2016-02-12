@@ -330,4 +330,19 @@ public class MatrixTest extends TestCase {
         assertEquals(D.getRowDimension(), C.getRowDimension());
 
     }
+
+    public void testSet1() {
+        double [][] A = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+        Matrix m = new Matrix(A);
+        m.set(0, 0, 5);
+        assertEquals(m.get(0, 0), 5.0);
+        m.set(1, 1, 6);
+        assertEquals(m.get(1, 1), 6.0);
+        m.set(2, 2, 7);
+        assertEquals(m.get(2, 2), 7.0);
+      }
 }

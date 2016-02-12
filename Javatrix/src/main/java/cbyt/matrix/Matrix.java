@@ -291,6 +291,16 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         return target;
     }
 
+    /**
+     * Sets element at index i j to value s.
+     * @param    i row index.
+     * @param    j col index.
+     * @param    s target value.
+     */
+    public void set(int i, int j, double s) {
+        this.matrix[i][j] = s;
+    }
+
      /**
       * Generate identity matrix.
       * @param   m Number of rows.
