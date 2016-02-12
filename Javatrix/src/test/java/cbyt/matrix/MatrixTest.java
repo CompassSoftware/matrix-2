@@ -325,9 +325,36 @@ public class MatrixTest extends TestCase {
         assertEquals(C.getRowDimension(), B.getRowDimension());
         assertEquals(C.getRowDimension(), A.getRowDimension());
 
-        assertTrue(Arrays.deepEquals(D.getArray(), D.getArray()));
+        assertTrue(Arrays.deepEquals(D.getArray(), C.getArray()));
         assertEquals(D.getColDimension(), C.getColDimension());
         assertEquals(D.getRowDimension(), C.getRowDimension());
+    }
 
+    public void testPlusEquals() {
+        double[][] matrix1 = {
+            {1,1,1},
+            {1,1,1},
+            {1,1,1}
+        };
+        Matrix A = new Matrix(matrix1);
+
+        double[][] matrix2 = {
+            {1,1,1},
+            {1,1,1},
+            {1,1,1}
+        };
+        Matrix B = new Matrix(matrix2);
+
+        double[][] matrix3 = {
+            {2,2,2},
+            {2,2,2},
+            {2,2,2}
+        };
+        Matrix D = new Matrix(matrix3);
+        A.plusEquals(B);
+
+        assertEquals(A.getColDimension(), B.getColDimension());
+        assertEquals(A.getRowDimension(), B.getRowDimension());
+        assertTrue(Arrays.deepEquals(A.getArray(), D.getArray()));
     }
 }

@@ -395,16 +395,41 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     /**
      * Adding two matrices and return a matrix
      * @param  B a matrix
-     * @return   the resulting matrix 
+     * @return   C the resulting matrix
      */
-    public Matrix plus(Matrix B) {
+    public Matrix plus(Matrix B) throws java.lang.IllegalArgumentException {
         Matrix A = this;
         Matrix C = new Matrix(this.rowLength, this.colLength);
+        if (A.getColDimension() != B.getColDimension() || A.getRowDimension() != B.getRowDimension()) {
+            throw new java.lang.IllegalArgumentException(
+                "Column dimension and row dimension must be equals"
+            );
+        }
         for (int i = 0; i < rowLength; i++) {
             for (int j = 0; j < colLength; j++) {
                 C.matrix[i][j] = A.matrix[i][j] + B.matrix[i][j];
             }
         }
         return C;
+    }
+
+    /**
+     * Adding two matrices, store the result in one of the original matrices and return it
+     * @param  B a matrix
+     * @return   A the resulting matrix
+     */
+    public Matrix plusEquals(Matrix B)  throws java.lang.IllegalArgumentException {
+        Matrix A = this;
+        if (A.getColDimension() != B.getColDimension() || A.getRowDimension() != B.getRowDimension()) {
+            throw new java.lang.IllegalArgumentException(
+                "Column dimension and row dimension must be equals"
+            );
+        }
+        for (int i = 0; i < rowLength; i++) {
+            for (int j = 0; j < colLength; j++) {
+                A.matrix[i][j] = A.matrix[i][j] + B.matrix[i][j];
+            }
+        }
+        return A;
     }
 }
