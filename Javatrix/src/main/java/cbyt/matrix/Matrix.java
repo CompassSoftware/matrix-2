@@ -296,6 +296,30 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         return target;
     }
 
+    /**
+     * Sets element at index i j to value s.
+     * @param    i row index.
+     * @param    j col index.
+     * @param    s target value.
+     */
+    public void set(int i, int j, double s) {
+        this.matrix[i][j] = s;
+    }
+
+    /**
+     * Sets sub matrix mapped by values of r and c to s.
+     * @param    r array of target rows
+     * @param    c array of target columns
+     * @param    X new matrix
+     */
+    public void set(int[] r, int[] c, Matrix X) {
+        for (int i = 0; i < r.length; i++) {
+            for (int j = 0; j < c.length; j++) {
+                X.matrix[i][j] = this.matrix[r[i] - 1][c[j] - 1];
+            }
+        }
+    }
+
      /**
       * Generate identity matrix.
       * @param   m Number of rows.
