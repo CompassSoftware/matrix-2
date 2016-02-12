@@ -297,4 +297,37 @@ public class MatrixTest extends TestCase {
         Matrix m = new Matrix(A);
         assertTrue(Arrays.equals(m.getColPackedCopy(), target));
     }
+
+    public void testPlus() {
+        double[][] matrix1 = {
+            {1,1,1},
+            {1,1,1},
+            {1,1,1}
+        };
+        Matrix A = new Matrix(matrix1);
+
+        double[][] matrix2 = {
+            {1,1,1},
+            {1,1,1},
+            {1,1,1}
+        };
+        Matrix B = new Matrix(matrix2);
+
+        double[][] matrix3 = {
+            {2,2,2},
+            {2,2,2},
+            {2,2,2}
+        };
+        Matrix D = new Matrix(matrix3);
+        Matrix C = A.plus(B);
+        assertEquals(C.getColDimension(), B.getColDimension());
+        assertEquals(C.getColDimension(), A.getColDimension());
+        assertEquals(C.getRowDimension(), B.getRowDimension());
+        assertEquals(C.getRowDimension(), A.getRowDimension());
+
+        assertTrue(Arrays.deepEquals(D.getArray(), D.getArray()));
+        assertEquals(D.getColDimension(), C.getColDimension());
+        assertEquals(D.getRowDimension(), C.getRowDimension());
+
+    }
 }

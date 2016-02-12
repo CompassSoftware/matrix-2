@@ -391,4 +391,20 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         }
         return new Matrix(A);
     }
+
+    /**
+     * Adding two matrices and return a matrix
+     * @param  B a matrix
+     * @return   the resulting matrix 
+     */
+    public Matrix plus(Matrix B) {
+        Matrix A = this;
+        Matrix C = new Matrix(this.rowLength, this.colLength);
+        for (int i = 0; i < rowLength; i++) {
+            for (int j = 0; j < colLength; j++) {
+                C.matrix[i][j] = A.matrix[i][j] + B.matrix[i][j];
+            }
+        }
+        return C;
+    }
 }
