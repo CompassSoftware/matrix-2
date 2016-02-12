@@ -263,6 +263,20 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         return new Matrix(target);
     }
 
+    /**
+     * Make a one-dimensional row packed copy of the internal array.
+     * @return      double[] packed by row
+     */
+    public double[] getRowPackedCopy() {
+        double[] target = new double[rowLength * colLength];
+        for (int i = 0; i < rowLength; i++) {
+          for (int j = 0; j < colLength; j++) {
+              target[i * colLength + j] = this.matrix[i][j];
+          }
+        }
+        return target;
+    }
+
      /**
       * Generate identity matrix.
       * @param   m Number of rows.

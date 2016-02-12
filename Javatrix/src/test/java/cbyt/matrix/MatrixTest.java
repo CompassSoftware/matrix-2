@@ -273,4 +273,16 @@ public class MatrixTest extends TestCase {
         assertEquals(sub.getColDimension(), j1 - j0 + 1);
         assertTrue(Arrays.deepEquals(sub.getArray(), target));
     }
+
+    public void testGetRowPackedCopy() {
+        double[][] A = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+        double[] target =
+            {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        Matrix m = new Matrix(A);
+        assertTrue(Arrays.equals(m.getRowPackedCopy(), target));
+    }
 }
