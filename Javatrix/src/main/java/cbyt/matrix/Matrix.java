@@ -227,7 +227,7 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         double[][] target = new double[r.length][c.length];
         for (int i = 0; i < r.length; i++) {
           for (int j = 0; j < c.length; j++) {
-            target[i][j] = this.matrix[r[i]-1][c[j]-1];
+              target[i][j] = this.matrix[r[i]-1][c[j]-1];
           }
         }
         return new Matrix(target);
@@ -239,10 +239,25 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * TODO: Decide whether passed r and c values should start at 0 or 1
      */
     public Matrix getMatrix(int i0, int i1, int[] c){
-        double[][] target = new double[i1-i0+1][c.length];
+        double[][] target = new double[i1 - i0 + 1][c.length];
         for (int i = i0 - 1; i < i1; i++) {
             for (int j = 0; j < c.length; j++) {
-              target[i][j] = this.matrix[i][c[j]-1];
+                target[i][j] = this.matrix[i][c[j] - 1];
+            }
+        }
+        return new Matrix(target);
+    }
+
+    /**
+     * Retruns a submatrix mapped across rows in r and columns from j0 to j1.
+     * @return      New sub matrix
+     * TODO: Decide whether passed r and c values should start at 0 or 1
+     */
+    public Matrix getMatrix(int[] r, int j0, int j1) {
+        double[][] target = new double[r.length][j1 - j0 + 1];
+        for (int i = 0; i < r.length; i++) {
+            for (int j = j0 - 1; j < j1; j++) {
+                target[i][j] = this.matrix[r[i] - 1][j];
             }
         }
         return new Matrix(target);
