@@ -330,4 +330,23 @@ public class MatrixTest extends TestCase {
         assertEquals(D.getRowDimension(), C.getRowDimension());
 
     }
+
+    public void testUMinus() {
+        double[][] matrix1 = {
+            {1,1,1},
+            {1,1,1},
+            {1,1,1}
+        };
+        Matrix A = new Matrix(matrix1);
+        double[][] matrix2 = {
+            {-1,-1,-1},
+            {-1,-1,-1},
+            {-1,-1,-1}
+        };
+        Matrix B = new Matrix(matrix2);
+        Matrix C = A.uminus();
+        assertEquals(C.getRowDimension(), B.getRowDimension());
+        assertEquals(C.getColDimension(), B.getColDimension());
+        assertTrue(Arrays.deepEquals(B.getArray(), C.getArray()));
+    }
 }

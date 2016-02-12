@@ -395,7 +395,7 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     /**
      * Adding two matrices and return a matrix
      * @param  B a matrix
-     * @return   the resulting matrix 
+     * @return   the resulting matrix
      */
     public Matrix plus(Matrix B) {
         Matrix A = this;
@@ -406,5 +406,20 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
             }
         }
         return C;
+    }
+
+    /**
+     * Performs a urnary minus operation on a matrix; A.uminus = -A
+     * @return returns -A
+     */
+    public Matrix uminus() {
+        Matrix A = this;
+        Matrix B = new Matrix(this.rowLength, this.colLength);
+        for (int i = 0; i < rowLength; i++) {
+            for (int j = 0; j < colLength; j++) {
+                B.matrix[i][j] = -1 * A.matrix[i][j];
+            }
+        }
+        return B;
     }
 }
