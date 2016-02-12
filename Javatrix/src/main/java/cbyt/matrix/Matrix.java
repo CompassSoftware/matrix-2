@@ -270,9 +270,23 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     public double[] getRowPackedCopy() {
         double[] target = new double[rowLength * colLength];
         for (int i = 0; i < rowLength; i++) {
-          for (int j = 0; j < colLength; j++) {
-              target[i * colLength + j] = this.matrix[i][j];
-          }
+            for (int j = 0; j < colLength; j++) {
+                target[i * colLength + j] = this.matrix[i][j];
+            }
+        }
+        return target;
+    }
+
+    /**
+     * Make a one-dimensional column packed copy of the internal array.
+     * @return      double[] packed by columns
+     */
+    public double[] getColPackedCopy() {
+        double[] target = new double[rowLength * colLength];
+        for (int j = 0; j < colLength; j++) {
+            for (int i = 0; i < rowLength; i++) {
+                target[j * rowLength + i] = this.matrix[i][j];
+            }
         }
         return target;
     }
