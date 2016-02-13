@@ -415,6 +415,20 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     }
 
     /**
+     * Calculates the Frobenius norm of the calling Matrix.
+     * @return The Frobenius norm.
+     */
+    public double normF() {
+          double fn = 0;
+          for (double[] row: this.matrix) {
+              for (double elem: row) {
+                  fn += (elem * elem);
+              }
+          }
+          return Math.sqrt(fn);
+    }
+
+    /**
      * Returns the max values in an array of doubles.
      * @return Max value in a.
      */

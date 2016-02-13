@@ -500,4 +500,17 @@ public class MatrixTest extends TestCase {
         m = new Matrix(A);
         assertEquals(m.normInf(), target);
     }
+
+    public void testNormF() {
+        Matrix m;
+        double[][] A;
+        double target;
+        A = new double[][] {
+          {2, 2},
+          {2, -2}
+        };
+        target = 4;
+        m = new Matrix(A);
+        assertEquals(m.normF(), target);
+    }
 }
