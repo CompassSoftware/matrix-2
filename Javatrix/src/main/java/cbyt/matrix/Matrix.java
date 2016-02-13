@@ -381,6 +381,35 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     }
 
     /**
+     * Calculated the l-norm of the calling Matrix.
+     * @return The l-norm
+     */
+    public double norml() {
+        double[] sums = new double[this.colLength];
+        double rt;
+        for (int j = 0; j < this.colLength; j++) {
+            rt = 0;
+            for (int i = 0; i < this.rowLength; i++) {
+                rt += Math.abs(this.matrix[i][j]);
+            }
+            sums[j] = rt;
+        }
+        return max(sums);
+    }
+
+    /**
+     * Returns the max values in an array of doubles.
+     * @return Max value in a.
+     */
+    private double max(double[] a) {
+        double max = a[0];
+        for (double x: a) {
+            if (x > max) max = x;
+        }
+        return max;
+    }
+
+    /**
      * Adding two matrices and return a matrix
      * @param  B a matrix
      * @return   the resulting matrix

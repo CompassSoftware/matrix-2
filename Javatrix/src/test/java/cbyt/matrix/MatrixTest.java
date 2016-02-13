@@ -458,4 +458,25 @@ public class MatrixTest extends TestCase {
         t = m.transpose();
         assertTrue(Arrays.deepEquals(t.getArray(), target));
     }
+
+    public void testNorml() {
+        Matrix m;
+        double[][] A;
+        double target;
+        A = new double[][] {
+            {1, -7},
+            {-2, -3}
+        };
+        target = 10;
+        m = new Matrix(A);
+        assertEquals(m.norml(), target);
+        A = new double[][] {
+            {5, -4, 2},
+            {-1, 2, 3},
+            {-2, 1, 0}
+        };
+        target = 8;
+        m = new Matrix(A);
+        assertEquals(m.norml(), target);
+    }
 }
