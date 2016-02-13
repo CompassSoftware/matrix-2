@@ -643,12 +643,12 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         if (A.getColDimension() != B.getColDimension()) {
             throw new java.lang.IllegalArgumentException(
                 "Column dimensions must be equal."
-            )
+            );
         }
         if (A.getRowDimension() != B.getRowDimension()) {
             throw new java.lang.IllegalArgumentException(
                 "Row dimensions must be equal."
-            )
+            );
         }
         Matrix C = new Matrix(this.rowLength, this.colLength);
         for (int i = 0; i < rowLength; i++) {
@@ -669,12 +669,12 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         if (A.getColDimension() != B.getColDimension()) {
             throw new java.lang.IllegalArgumentException(
                 "Column dimensions must be equal."
-            )
+            );
         }
         if (A.getRowDimension() != B.getRowDimension()) {
             throw new java.lang.IllegalArgumentException(
                 "Row dimensions must be equal."
-            )
+            );
         }
         for (int i = 0; i < rowLength; i++) {
             for (int j = 0; j < colLength; j++) {

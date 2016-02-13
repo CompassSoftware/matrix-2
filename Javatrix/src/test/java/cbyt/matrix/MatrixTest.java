@@ -450,7 +450,7 @@ public class MatrixTest extends TestCase {
             {1,1,1}
         };
         Matrix C = new Matrix(matrix3);
-        Matrix A = A.minusEquals(B);
+        A = A.minusEquals(B);
         assertEquals(C.getColDimension(), B.getColDimension());
         assertEquals(C.getColDimension(), A.getColDimension());
         assertEquals(C.getRowDimension(), B.getRowDimension());
