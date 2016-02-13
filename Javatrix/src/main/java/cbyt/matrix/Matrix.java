@@ -307,10 +307,25 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @param    c array of target columns
      * @param    X new matrix
      */
-    public void set(int[] r, int[] c, Matrix X) {
+    public void setMatrix(int[] r, int[] c, Matrix X) {
         for (int i = 0; i < r.length; i++) {
             for (int j = 0; j < c.length; j++) {
                 X.matrix[i][j] = this.matrix[r[i] - 1][c[j] - 1];
+            }
+        }
+    }
+
+    /**
+     * Sets a subm,atrix mapped across rows in r and columns from j0 to j1
+     * @param  r int[] contained row indeces
+     * @param  j0 starting column index
+     * @param  j1 ending column index
+     * @param  X target Matrix
+     */
+    public void setMatrix(int[] r, int j0, int j1, Matrix X) {
+        for (int i = 0; i < r.length; i++) {
+            for (int j = j0; j <= j1; j++) {
+                X.matrix[i][j - j0] = this.matrix[r[i] - 1][j - 1];
             }
         }
     }

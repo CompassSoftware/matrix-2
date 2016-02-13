@@ -331,7 +331,7 @@ public class MatrixTest extends TestCase {
 
     }
 
-    public void testSet1() {
+    public void testSet() {
         double [][] A = {
             {1, 2, 3},
             {4, 5, 6},
@@ -346,7 +346,7 @@ public class MatrixTest extends TestCase {
         assertEquals(m.get(2, 2), 7.0);
     }
 
-    public void testSet2() {
+    public void testSetMatrix1() {
         double [][] A = {
             {1, 2, 3},
             {4, 5, 6},
@@ -360,7 +360,26 @@ public class MatrixTest extends TestCase {
         Matrix X = new Matrix(2, 2);
         int[] r = {1, 3};
         int[] c = {1, 3};
-        m.set(r, c, X);
+        m.setMatrix(r, c, X);
+        assertTrue(Arrays.deepEquals(X.getArray(), target));
+    }
+
+    public void testSetMatrix2() {
+        double [][] A = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+        double [][] target = {
+            {1, 2},
+            {7, 8}
+        };
+        Matrix m = new Matrix(A);
+        Matrix X = new Matrix(2, 2);
+        int[] r = {1, 3};
+        int j0 = 1;
+        int j1 = 2;
+        m.setMatrix(r, j0, j1, X);
         assertTrue(Arrays.deepEquals(X.getArray(), target));
     }
 }
