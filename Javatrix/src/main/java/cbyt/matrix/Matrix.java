@@ -345,6 +345,22 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         }
     }
 
+    /**
+     * Sets a submatrix mapped from rows i0 to i1 and columns j0 to j1.
+     * @param  i0 starting row index
+     * @param  i1 ending row index
+     * @param  j0 starting column index
+     * @param  j1 ending column index
+     * @param  X target Matrix
+     */
+    public void setMatrix(int i0, int i1, int j0, int j1, Matrix X) {
+        for (int i = i0; i <= i1; i++) {
+            for (int j = j0; j <= j1; j++) {
+                X.matrix[i - i0][j- j0] = this.matrix[i - 1][j - 1];
+            }
+        }
+    }
+
      /**
       * Generate identity matrix.
       * @param   m Number of rows.

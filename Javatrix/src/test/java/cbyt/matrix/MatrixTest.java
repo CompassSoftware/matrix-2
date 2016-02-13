@@ -401,4 +401,24 @@ public class MatrixTest extends TestCase {
         m.setMatrix(i0, i1, c, X);
         assertTrue(Arrays.deepEquals(X.getArray(), target));
     }
+
+    public void testSetMatrix4() {
+        double [][] A = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+        double [][] target = {
+            {1, 2},
+            {4, 5}
+        };
+        Matrix m = new Matrix(A);
+        Matrix X = new Matrix(2, 2);
+        int i0 = 1;
+        int i1 = 2;
+        int j0 = 1;
+        int j1 = 2;
+        m.setMatrix(i0, i1, j0, j1, X);
+        assertTrue(Arrays.deepEquals(X.getArray(), target));
+    }
 }
