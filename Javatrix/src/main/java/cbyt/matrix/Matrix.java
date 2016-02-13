@@ -398,6 +398,23 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     }
 
     /**
+     * Calculates the infinity-norm of the calling Matrix.
+     * @return The infinity-norm.
+     */
+    public double normInf() {
+        double[] sums = new double[this.rowLength];
+        double rt;
+        for (int i = 0; i < this.rowLength; i++) {
+            rt = 0;
+            for (int j = 0; j < this.colLength; j++) {
+                rt += Math.abs(this.matrix[i][j]);
+            }
+            sums[i] = rt;
+        }
+        return max(sums);
+    }
+
+    /**
      * Returns the max values in an array of doubles.
      * @return Max value in a.
      */
