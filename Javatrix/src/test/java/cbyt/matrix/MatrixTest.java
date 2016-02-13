@@ -105,7 +105,6 @@ public class MatrixTest extends TestCase {
     public void testGetArray() {
         double[][] A = {{1,2,3},{1,2,3},{1,2,3}};
         Matrix m = new Matrix(A);
-        assertEquals(A, m.getArray());
         assertTrue(
             Arrays.deepEquals(A, m.getArray())
         );
@@ -420,5 +419,43 @@ public class MatrixTest extends TestCase {
         int j1 = 2;
         m.setMatrix(i0, i1, j0, j1, X);
         assertTrue(Arrays.deepEquals(X.getArray(), target));
+    }
+
+    public void testTranspose() {
+        Matrix m, t;
+        double[][] A, target;
+        A = new double[][] {
+            {1, 2}
+        };
+        target = new double[][] {
+            {1},
+            {2},
+        };
+        m = new Matrix(A);
+        t = m.transpose();
+        assertTrue(Arrays.deepEquals(t.getArray(), target));
+        A = new double[][] {
+            {1, 2},
+            {3, 4}
+        };
+        target = new double[][] {
+            {1, 3},
+            {2, 4}
+        };
+        m = new Matrix(A);
+        t = m.transpose();
+        assertTrue(Arrays.deepEquals(t.getArray(), target));
+        A = new double[][] {
+            {1, 2},
+            {3, 4},
+            {5, 6}
+        };
+        target = new double[][] {
+            {1, 3, 5},
+            {2, 4, 6}
+        };
+        m = new Matrix(A);
+        t = m.transpose();
+        assertTrue(Arrays.deepEquals(t.getArray(), target));
     }
 }
