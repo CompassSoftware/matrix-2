@@ -380,6 +380,46 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         return new Matrix(target);
     }
 
+    /**
+     * Adding two matrices and return a matrix
+     * @param  B a matrix
+     * @return   the resulting matrix
+     */
+    public Matrix plus(Matrix B) {
+        Matrix A = this;
+        Matrix C = new Matrix(this.rowLength, this.colLength);
+        for (int i = 0; i < rowLength; i++) {
+            for (int j = 0; j < colLength; j++) {
+                C.matrix[i][j] = A.matrix[i][j] + B.matrix[i][j];
+            }
+        }
+        return C;
+    }
+
+    /**
+    * Return a deep copy a matrix
+    * @return   A deep copy of a matrix
+    */
+    public Matrix copy() {
+        double[][] A = new double[rowLength][colLength];
+        for (int i = 0; i < rowLength; i++) {
+            for (int j = 0; j < colLength; j++) {
+                A[i][j] = this.matrix[i][j];
+            }
+        }
+        Matrix m = new Matrix(A, rowLength, colLength);
+        return m;
+    }
+
+    /**
+     * Clone the Matrix Object.
+     * @return Object.
+     */
+    public Object clone() {
+        return this.copy();
+    }
+
+
      /**
       * Generate identity matrix.
       * @param   m Number of rows.
@@ -433,30 +473,6 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
             return new Matrix(0, 0);
         }
     }
-
-    /**
-    * Return a deep copy a matrix
-    * @return   A deep copy of a matrix
-    */
-    public Matrix copy() {
-        double[][] A = new double[rowLength][colLength];
-        for (int i = 0; i < rowLength; i++) {
-            for (int j = 0; j < colLength; j++) {
-                A[i][j] = this.matrix[i][j];
-            }
-        }
-        Matrix m = new Matrix(A, rowLength, colLength);
-        return m;
-    }
-
-    /**
-     * Clone the Matrix Object.
-     * @return Object.
-     */
-    public Object clone() {
-        return this.copy();
-    }
-
     /**
     * Fill a matrix with random elements
     * @return a matrix with random elements
@@ -479,21 +495,5 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
             }
         }
         return new Matrix(A);
-    }
-
-    /**
-     * Adding two matrices and return a matrix
-     * @param  B a matrix
-     * @return   the resulting matrix
-     */
-    public Matrix plus(Matrix B) {
-        Matrix A = this;
-        Matrix C = new Matrix(this.rowLength, this.colLength);
-        for (int i = 0; i < rowLength; i++) {
-            for (int j = 0; j < colLength; j++) {
-                C.matrix[i][j] = A.matrix[i][j] + B.matrix[i][j];
-            }
-        }
-        return C;
     }
 }
