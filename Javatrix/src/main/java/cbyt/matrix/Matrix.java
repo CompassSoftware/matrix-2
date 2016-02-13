@@ -385,6 +385,106 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         return new Matrix(target);
     }
 
+    /**
+     * Calculated the l-norm of the calling Matrix.
+     * @return The l-norm
+     */
+    public double norml() {
+        double[] sums = new double[this.colLength];
+        double rt;
+        for (int j = 0; j < this.colLength; j++) {
+            rt = 0;
+            for (int i = 0; i < this.rowLength; i++) {
+                rt += Math.abs(this.matrix[i][j]);
+            }
+            sums[j] = rt;
+        }
+        return max(sums);
+    }
+
+    /**
+     * Calculates the infinity-norm of the calling Matrix.
+     * @return The infinity-norm.
+     */
+    public double normInf() {
+        double[] sums = new double[this.rowLength];
+        double rt;
+        for (int i = 0; i < this.rowLength; i++) {
+            rt = 0;
+            for (int j = 0; j < this.colLength; j++) {
+                rt += Math.abs(this.matrix[i][j]);
+            }
+            sums[i] = rt;
+        }
+        return max(sums);
+    }
+
+    /**
+     * Calculates the Frobenius norm of the calling Matrix.
+     * @return The Frobenius norm.
+     */
+    public double normF() {
+          double fn = 0;
+          for (double[] row: this.matrix) {
+              for (double elem: row) {
+                  fn += (elem * elem);
+              }
+          }
+          return Math.sqrt(fn);
+    }
+
+    /**
+     * Returns the max values in an array of doubles.
+     * @return Max value in a.
+     */
+    private double max(double[] a) {
+        double max = a[0];
+        for (double x: a) {
+            if (x > max) max = x;
+        }
+        return max;
+    }
+
+    /**
+     * Adding two matrices and return a matrix
+     * @param  B a matrix
+     * @return   the resulting matrix
+     */
+    public Matrix plus(Matrix B) {
+        Matrix A = this;
+        Matrix C = new Matrix(this.rowLength, this.colLength);
+        for (int i = 0; i < rowLength; i++) {
+            for (int j = 0; j < colLength; j++) {
+                C.matrix[i][j] = A.matrix[i][j] + B.matrix[i][j];
+            }
+        }
+        return C;
+    }
+
+    /**
+    * Return a deep copy a matrix
+    * @return   A deep copy of a matrix
+    */
+    public Matrix copy() {
+        double[][] A = new double[rowLength][colLength];
+        for (int i = 0; i < rowLength; i++) {
+            for (int j = 0; j < colLength; j++) {
+                A[i][j] = this.matrix[i][j];
+            }
+        }
+        Matrix m = new Matrix(A, rowLength, colLength);
+        return m;
+    }
+
+    /**
+     * Clone the Matrix Object.
+     * @return Object.
+     */
+    public Object clone() {
+        return this.copy();
+    }
+
+
      /**
       * Generate identity matrix.
       * @param   m Number of rows.
@@ -438,30 +538,6 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
             return new Matrix(0, 0);
         }
     }
-
-    /**
-    * Return a deep copy a matrix
-    * @return   A deep copy of a matrix
-    */
-    public Matrix copy() {
-        double[][] A = new double[rowLength][colLength];
-        for (int i = 0; i < rowLength; i++) {
-            for (int j = 0; j < colLength; j++) {
-                A[i][j] = this.matrix[i][j];
-            }
-        }
-        Matrix m = new Matrix(A, rowLength, colLength);
-        return m;
-    }
-
-    /**
-     * Clone the Matrix Object.
-     * @return Object.
-     */
-    public Object clone() {
-        return this.copy();
-    }
-
     /**
     * Fill a matrix with random elements
     * @return a matrix with random elements
@@ -484,22 +560,6 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
             }
         }
         return new Matrix(A);
-    }
-
-    /**
-     * Adding two matrices and return a matrix
-     * @param  B a matrix
-     * @return   the resulting matrix
-     */
-    public Matrix plus(Matrix B) {
-        Matrix A = this;
-        Matrix C = new Matrix(this.rowLength, this.colLength);
-        for (int i = 0; i < rowLength; i++) {
-            for (int j = 0; j < colLength; j++) {
-                C.matrix[i][j] = A.matrix[i][j] + B.matrix[i][j];
-            }
-        }
-        return C;
     }
 
     /**
