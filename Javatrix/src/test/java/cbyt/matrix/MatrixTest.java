@@ -626,6 +626,43 @@ public class MatrixTest extends TestCase {
         errContent.add(String.format("%n 1.20 2.30 3.40%n 1.30 2.40 3.50%n 1.40 2.50 3.60%n%n"));
         assertEquals(String.join("", errContent), this.errBuffer.toString());
 
+    }
 
+    public void testTranspose() {
+        Matrix m, t;
+        double[][] A, target;
+        A = new double[][] {
+            {1, 2}
+        };
+        target = new double[][] {
+            {1},
+            {2},
+        };
+        m = new Matrix(A);
+        t = m.transpose();
+        assertTrue(Arrays.deepEquals(t.getArray(), target));
+        A = new double[][] {
+            {1, 2},
+            {3, 4}
+        };
+        target = new double[][] {
+            {1, 3},
+            {2, 4}
+        };
+        m = new Matrix(A);
+        t = m.transpose();
+        assertTrue(Arrays.deepEquals(t.getArray(), target));
+        A = new double[][] {
+            {1, 2},
+            {3, 4},
+            {5, 6}
+        };
+        target = new double[][] {
+            {1, 3, 5},
+            {2, 4, 6}
+        };
+        m = new Matrix(A);
+        t = m.transpose();
+        assertTrue(Arrays.deepEquals(t.getArray(), target));
     }
 }

@@ -57,9 +57,14 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
                     }
                 }
             }
-            this.matrix = A;
-            this.colLength = this.matrix.length;
-            this.rowLength = ((this.colLength > 0) ? this.matrix[0].length : 0);
+            this.rowLength = A.length;
+            this.colLength = A[0].length;
+            this.matrix = new double[this.rowLength][this.colLength];
+            for (int i = 0; i < this.rowLength; i++) {
+                for (int j = 0; j < this.colLength; j++) {
+                    this.matrix[i][j] = A[i][j];
+                }
+            }
         }
         else if (A.length == 0) {
             this.matrix = new double[0][0];
@@ -364,6 +369,20 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
                 X.matrix[i - i0][j- j0] = this.matrix[i - 1][j - 1];
             }
         }
+    }
+
+    /**
+     * Retrusn the transpose of calling Matrix.
+     * @return The transpose of calling Matrix.
+     */
+    public Matrix transpose() {
+        double[][] target = new double[this.colLength][this.rowLength];
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
+                target[j][i] = this.matrix[i][j];
+            }
+        }
+        return new Matrix(target);
     }
 
      /**
