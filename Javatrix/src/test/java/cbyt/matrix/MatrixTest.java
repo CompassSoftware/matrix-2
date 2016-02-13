@@ -380,6 +380,35 @@ public class MatrixTest extends TestCase {
         assertTrue(Arrays.deepEquals(C.getArray(), D.getArray()));
         assertEquals(D.getColDimension(), C.getColDimension());
         assertEquals(D.getRowDimension(), C.getRowDimension());
+      }
+
+      public void testMinusEquals() {
+          double[][] matrix1 = {
+              {2,2,2},
+              {2,2,2},
+              {2,2,2}
+          };
+          Matrix A = new Matrix(matrix1);
+
+          double[][] matrix2 = {
+              {1,1,1},
+              {1,1,1},
+              {1,1,1}
+          };
+          Matrix B = new Matrix(matrix2);
+
+          double[][] matrix3 = {
+              {1,1,1},
+              {1,1,1},
+              {1,1,1}
+          };
+          Matrix C = new Matrix(matrix3);
+          Matrix A = A.minusEquals(B);
+          assertEquals(C.getColDimension(), B.getColDimension());
+          assertEquals(C.getColDimension(), A.getColDimension());
+          assertEquals(C.getRowDimension(), B.getRowDimension());
+          assertEquals(C.getRowDimension(), A.getRowDimension());
+          assertTrue(Arrays.deepEquals(C.getArray(), A.getArray()));
 
       }
 }

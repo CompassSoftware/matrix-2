@@ -422,4 +422,55 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         }
         return B;
     }
+
+    /**
+     * Performs a minus operation on a matrix.
+     * @param  B a matrix to be subtracted from A
+     * @return  A - B
+     */
+    public Matrix minus(Matrix B) throws java.lang.IllegalArgumentException {
+        Matrix A = this;
+        if (A.getColDimension() != B.getColDimension()) {
+            throw new java.lang.IllegalArgumentException(
+                "Column dimensions must be equal."
+            )
+        }
+        if (A.getRowDimension() != B.getRowDimension()) {
+            throw new java.lang.IllegalArgumentException(
+                "Row dimensions must be equal."
+            )
+        }
+        Matrix C = new Matrix(this.rowLength, this.colLength);
+        for (int i = 0; i < rowLength; i++) {
+            for (int j = 0; j < colLength; j++) {
+                C.matrix[i][j] = A.matrix[i][j] - B.matrix[i][j];
+            }
+        }
+        return C;
+    }
+
+    /**
+     * Subtracts matrix B from matrix A and puts result in A
+     * @param  B matrix to be subtracted
+     * @return   A - B
+     */
+    public Matrix minusEquals(Matrix B) throws java.lang.IllegalArgumentException {
+        Matrix A = this;
+        if (A.getColDimension() != B.getColDimension()) {
+            throw new java.lang.IllegalArgumentException(
+                "Column dimensions must be equal."
+            )
+        }
+        if (A.getRowDimension() != B.getRowDimension()) {
+            throw new java.lang.IllegalArgumentException(
+                "Row dimensions must be equal."
+            )
+        }
+        for (int i = 0; i < rowLength; i++) {
+            for (int j = 0; j < colLength; j++) {
+                A.matrix[i][j] = A.matrix[i][j] - B.matrix[i][j];
+            }
+        }
+        return A;
+    }
 }
