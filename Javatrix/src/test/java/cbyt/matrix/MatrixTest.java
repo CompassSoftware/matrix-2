@@ -1,6 +1,14 @@
 package cbyt.matrix;
 
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.ByteArrayOutputStream;
+import java.text.NumberFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Locale;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -12,6 +20,28 @@ import junit.framework.TestSuite;
  *
  */
 public class MatrixTest extends TestCase {
+
+    /**
+     * Redirected System.out buffer.
+     */
+    private final ByteArrayOutputStream outBuffer =
+        new ByteArrayOutputStream();
+
+    /**
+     * Redirected System.err buffer.
+     */
+    private final ByteArrayOutputStream errBuffer =
+        new ByteArrayOutputStream();
+
+    /**
+     * Original System.out buffer.
+     */
+    private PrintStream origOutBuffer;
+
+    /**
+     * Original System.err buffer.
+     */
+    private PrintStream origErrBuffer;
 
     /**
      * Default test constructor for TestCase.
@@ -27,6 +57,24 @@ public class MatrixTest extends TestCase {
      */
     public static Test suite() {
         return new TestSuite(MatrixTest.class);
+    }
+
+    /**
+     * Setup testing environment before each test.
+     */
+    protected void setUp() {
+        this.origOutBuffer = System.out;
+        this.origErrBuffer = System.err;
+        System.setOut(new PrintStream(this.outBuffer));
+        System.setErr(new PrintStream(this.errBuffer));
+    }
+
+    /**
+     * Restore default environment after each test.
+     */
+    protected void tearDown() {
+        System.setOut(this.origOutBuffer);
+        System.setErr(this.origErrBuffer);
     }
 
     /**
@@ -105,7 +153,6 @@ public class MatrixTest extends TestCase {
     public void testGetArray() {
         double[][] A = {{1,2,3},{1,2,3},{1,2,3}};
         Matrix m = new Matrix(A);
-        assertEquals(A, m.getArray());
         assertTrue(
             Arrays.deepEquals(A, m.getArray())
         );
@@ -380,35 +427,376 @@ public class MatrixTest extends TestCase {
         assertTrue(Arrays.deepEquals(C.getArray(), D.getArray()));
         assertEquals(D.getColDimension(), C.getColDimension());
         assertEquals(D.getRowDimension(), C.getRowDimension());
-      }
+    }
 
-      public void testMinusEquals() {
-          double[][] matrix1 = {
-              {2,2,2},
-              {2,2,2},
-              {2,2,2}
-          };
-          Matrix A = new Matrix(matrix1);
+    public void testMinusEquals() {
+        double[][] matrix1 = {
+            {2,2,2},
+            {2,2,2},
+            {2,2,2}
+        };
+        Matrix A = new Matrix(matrix1);
 
-          double[][] matrix2 = {
-              {1,1,1},
-              {1,1,1},
-              {1,1,1}
-          };
-          Matrix B = new Matrix(matrix2);
+        double[][] matrix2 = {
+            {1,1,1},
+            {1,1,1},
+            {1,1,1}
+        };
+        Matrix B = new Matrix(matrix2);
 
-          double[][] matrix3 = {
-              {1,1,1},
-              {1,1,1},
-              {1,1,1}
-          };
-          Matrix C = new Matrix(matrix3);
-          Matrix A = A.minusEquals(B);
-          assertEquals(C.getColDimension(), B.getColDimension());
-          assertEquals(C.getColDimension(), A.getColDimension());
-          assertEquals(C.getRowDimension(), B.getRowDimension());
-          assertEquals(C.getRowDimension(), A.getRowDimension());
-          assertTrue(Arrays.deepEquals(C.getArray(), A.getArray()));
+        double[][] matrix3 = {
+            {1,1,1},
+            {1,1,1},
+            {1,1,1}
+        };
+        Matrix C = new Matrix(matrix3);
+        Matrix A = A.minusEquals(B);
+        assertEquals(C.getColDimension(), B.getColDimension());
+        assertEquals(C.getColDimension(), A.getColDimension());
+        assertEquals(C.getRowDimension(), B.getRowDimension());
+        assertEquals(C.getRowDimension(), A.getRowDimension());
+        assertTrue(Arrays.deepEquals(C.getArray(), A.getArray()));
+    }
 
-      }
+    public void testSet() {
+        double [][] A = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+        Matrix m = new Matrix(A);
+        m.set(0, 0, 5);
+        assertEquals(m.get(0, 0), 5.0);
+        m.set(1, 1, 6);
+        assertEquals(m.get(1, 1), 6.0);
+        m.set(2, 2, 7);
+        assertEquals(m.get(2, 2), 7.0);
+    }
+
+    public void testSetMatrix1() {
+        double [][] A = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+        double [][] target = {
+            {1, 3},
+            {7, 9}
+        };
+        Matrix m = new Matrix(A);
+        Matrix X = new Matrix(2, 2);
+        int[] r = {1, 3};
+        int[] c = {1, 3};
+        m.setMatrix(r, c, X);
+        assertTrue(Arrays.deepEquals(X.getArray(), target));
+    }
+
+    public void testSetMatrix2() {
+        double [][] A = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+        double [][] target = {
+            {1, 2},
+            {7, 8}
+        };
+        Matrix m = new Matrix(A);
+        Matrix X = new Matrix(2, 2);
+        int[] r = {1, 3};
+        int j0 = 1;
+        int j1 = 2;
+        m.setMatrix(r, j0, j1, X);
+        assertTrue(Arrays.deepEquals(X.getArray(), target));
+    }
+
+    public void testSetMatrix3() {
+        double [][] A = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+        double [][] target = {
+            {1, 3},
+            {4, 6}
+        };
+        Matrix m = new Matrix(A);
+        Matrix X = new Matrix(2, 2);
+        int i0 = 1;
+        int i1 = 2;
+        int[] c = {1, 3};
+        m.setMatrix(i0, i1, c, X);
+        assertTrue(Arrays.deepEquals(X.getArray(), target));
+    }
+
+    public void testSetMatrix4() {
+        double [][] A = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+        double [][] target = {
+            {1, 2},
+            {4, 5}
+        };
+        Matrix m = new Matrix(A);
+        Matrix X = new Matrix(2, 2);
+        int i0 = 1;
+        int i1 = 2;
+        int j0 = 1;
+        int j1 = 2;
+        m.setMatrix(i0, i1, j0, j1, X);
+        assertTrue(Arrays.deepEquals(X.getArray(), target));
+    }
+
+    /**
+     * Test print(int w, int d).
+     */
+    public void testPrint1() {
+        // TODO: More rigorous testing?
+        double[][] A = {{1.2, 2.3, 3.4}, {1.3, 2.4, 3.5}, {1.4, 2.5, 3.6}};
+        Matrix m = new Matrix(A);
+        ArrayList<String> outContent = new ArrayList<String>();
+
+        m.print(0, 0);
+        outContent.add(String.format("%n 1 2 3%n 1 2 4%n 1 2 4%n%n"));
+        assertEquals(String.join("", outContent), this.outBuffer.toString());
+        m.print(1, 0);
+        outContent.add(String.format("%n  1  2  3%n  1  2  4%n  1  2  4%n%n"));
+        assertEquals(String.join("", outContent), this.outBuffer.toString());
+        m.print(0, 1);
+        outContent.add(String.format("%n 1.2 2.3 3.4%n 1.3 2.4 3.5%n 1.4 2.5 3.6%n%n"));
+        assertEquals(String.join("", outContent), this.outBuffer.toString());
+        m.print(0, 2);
+        outContent.add(String.format("%n 1.20 2.30 3.40%n 1.30 2.40 3.50%n 1.40 2.50 3.60%n%n"));
+        assertEquals(String.join("", outContent), this.outBuffer.toString());
+        m.print(-1, 0);
+        outContent.add(String.format("%n 1 2 3%n 1 2 4%n 1 2 4%n%n"));
+        assertEquals(String.join("", outContent), this.outBuffer.toString());
+        m.print(-2, 1);
+        outContent.add(String.format("%n 1.2 2.3 3.4%n 1.3 2.4 3.5%n 1.4 2.5 3.6%n%n"));
+        assertEquals(String.join("", outContent), this.outBuffer.toString());
+    }
+
+    /**
+     * Test print(PrintWriter output, int w, int d).
+     */
+    public void testPrint2() {
+        // TODO: More rigorous testing?
+        double[][] A = {{1.2, 2.3, 3.4}, {1.3, 2.4, 3.5}, {1.4, 2.5, 3.6}};
+        Matrix m = new Matrix(A);
+        ArrayList<String> outContent = new ArrayList<String>();
+        ArrayList<String> errContent = new ArrayList<String>();
+        PrintWriter outWriter = new PrintWriter(System.out, true);
+        PrintWriter errWriter = new PrintWriter(System.err, true);
+
+        m.print(outWriter, 0, 0);
+        outContent.add(String.format("%n 1 2 3%n 1 2 4%n 1 2 4%n%n"));
+        assertEquals(String.join("", outContent), this.outBuffer.toString());
+        m.print(errWriter, 0, 0);
+        errContent.add(String.format("%n 1 2 3%n 1 2 4%n 1 2 4%n%n"));
+        assertEquals(String.join("", errContent), this.errBuffer.toString());
+
+        m.print(outWriter, 1, 0);
+        outContent.add(String.format("%n  1  2  3%n  1  2  4%n  1  2  4%n%n"));
+        assertEquals(String.join("", outContent), this.outBuffer.toString());
+        m.print(errWriter, 1, 0);
+        errContent.add(String.format("%n  1  2  3%n  1  2  4%n  1  2  4%n%n"));
+        assertEquals(String.join("", errContent), this.errBuffer.toString());
+
+        m.print(outWriter, 0, 1);
+        outContent.add(String.format("%n 1.2 2.3 3.4%n 1.3 2.4 3.5%n 1.4 2.5 3.6%n%n"));
+        assertEquals(String.join("", outContent), this.outBuffer.toString());
+        m.print(errWriter, 0, 1);
+        errContent.add(String.format("%n 1.2 2.3 3.4%n 1.3 2.4 3.5%n 1.4 2.5 3.6%n%n"));
+        assertEquals(String.join("", errContent), this.errBuffer.toString());
+
+        m.print(outWriter, 0, 2);
+        outContent.add(String.format("%n 1.20 2.30 3.40%n 1.30 2.40 3.50%n 1.40 2.50 3.60%n%n"));
+        assertEquals(String.join("", outContent), this.outBuffer.toString());
+        m.print(errWriter, 0, 2);
+        errContent.add(String.format("%n 1.20 2.30 3.40%n 1.30 2.40 3.50%n 1.40 2.50 3.60%n%n"));
+        assertEquals(String.join("", errContent), this.errBuffer.toString());
+
+        m.print(outWriter, -2, 1);
+        outContent.add(String.format("%n 1.2 2.3 3.4%n 1.3 2.4 3.5%n 1.4 2.5 3.6%n%n"));
+        assertEquals(String.join("", outContent), this.outBuffer.toString());
+        m.print(errWriter, -2, 1);
+        errContent.add(String.format("%n 1.2 2.3 3.4%n 1.3 2.4 3.5%n 1.4 2.5 3.6%n%n"));
+        assertEquals(String.join("", errContent), this.errBuffer.toString());
+    }
+
+    /**
+     * Test print(NumberFormat format, int width).
+     */
+    public void testPrint3() {
+        // TODO: More rigorous testing?
+        double[][] A = {{1.2, 2.3, 3.4}, {1.3, 2.4, 3.5}, {1.4, 2.5, 3.6}};
+        Matrix m = new Matrix(A);
+        ArrayList<String> outContent = new ArrayList<String>();
+        DecimalFormat format = new DecimalFormat();
+        format.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
+        format.setGroupingUsed(false);
+
+        format.setMinimumIntegerDigits(1);
+        format.setMaximumFractionDigits(1);
+        format.setMinimumFractionDigits(1);
+        m.print(format, 0);
+        outContent.add(String.format("%n 1.2 2.3 3.4%n 1.3 2.4 3.5%n 1.4 2.5 3.6%n%n"));
+        assertEquals(String.join("", outContent), this.outBuffer.toString());
+
+        format.setMinimumIntegerDigits(2);
+        format.setMaximumFractionDigits(1);
+        format.setMinimumFractionDigits(1);
+        m.print(format, 2);
+        outContent.add(String.format("%n 01.2 02.3 03.4%n 01.3 02.4 03.5%n 01.4 02.5 03.6%n%n"));
+        assertEquals(String.join("", outContent), this.outBuffer.toString());
+
+        format.setMinimumIntegerDigits(1);
+        format.setMaximumFractionDigits(2);
+        format.setMinimumFractionDigits(2);
+        m.print(format, 2);
+        outContent.add(String.format("%n 1.20 2.30 3.40%n 1.30 2.40 3.50%n 1.40 2.50 3.60%n%n"));
+        assertEquals(String.join("", outContent), this.outBuffer.toString());
+    }
+
+    /**
+     * Test print(PrintWriter output, NumberFormat format, int width).
+     */
+    public void testPrint4() {
+        // TODO: More rigorous testing?
+        double[][] A = {{1.2, 2.3, 3.4}, {1.3, 2.4, 3.5}, {1.4, 2.5, 3.6}};
+        Matrix m = new Matrix(A);
+        ArrayList<String> outContent = new ArrayList<String>();
+        ArrayList<String> errContent = new ArrayList<String>();
+        PrintWriter outWriter = new PrintWriter(System.out, true);
+        PrintWriter errWriter = new PrintWriter(System.err, true);
+        DecimalFormat format = new DecimalFormat();
+        format.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
+        format.setGroupingUsed(false);
+
+        format.setMinimumIntegerDigits(1);
+        format.setMaximumFractionDigits(1);
+        format.setMinimumFractionDigits(1);
+        m.print(outWriter, format, 0);
+        outContent.add(String.format("%n 1.2 2.3 3.4%n 1.3 2.4 3.5%n 1.4 2.5 3.6%n%n"));
+        assertEquals(String.join("", outContent), this.outBuffer.toString());
+        m.print(errWriter, format, 0);
+        errContent.add(String.format("%n 1.2 2.3 3.4%n 1.3 2.4 3.5%n 1.4 2.5 3.6%n%n"));
+        assertEquals(String.join("", errContent), this.errBuffer.toString());
+
+        format.setMinimumIntegerDigits(2);
+        format.setMaximumFractionDigits(1);
+        format.setMinimumFractionDigits(1);
+        m.print(outWriter, format, 2);
+        outContent.add(String.format("%n 01.2 02.3 03.4%n 01.3 02.4 03.5%n 01.4 02.5 03.6%n%n"));
+        assertEquals(String.join("", outContent), this.outBuffer.toString());
+        m.print(errWriter, format, 2);
+        errContent.add(String.format("%n 01.2 02.3 03.4%n 01.3 02.4 03.5%n 01.4 02.5 03.6%n%n"));
+        assertEquals(String.join("", errContent), this.errBuffer.toString());
+
+        format.setMinimumIntegerDigits(1);
+        format.setMaximumFractionDigits(2);
+        format.setMinimumFractionDigits(2);
+        m.print(outWriter, format, 2);
+        outContent.add(String.format("%n 1.20 2.30 3.40%n 1.30 2.40 3.50%n 1.40 2.50 3.60%n%n"));
+        assertEquals(String.join("", outContent), this.outBuffer.toString());
+        m.print(errWriter, format, 2);
+        errContent.add(String.format("%n 1.20 2.30 3.40%n 1.30 2.40 3.50%n 1.40 2.50 3.60%n%n"));
+        assertEquals(String.join("", errContent), this.errBuffer.toString());
+
+    }
+
+    public void testTranspose() {
+        Matrix m, t;
+        double[][] A, target;
+        A = new double[][] {
+            {1, 2}
+        };
+        target = new double[][] {
+            {1},
+            {2},
+        };
+        m = new Matrix(A);
+        t = m.transpose();
+        assertTrue(Arrays.deepEquals(t.getArray(), target));
+        A = new double[][] {
+            {1, 2},
+            {3, 4}
+        };
+        target = new double[][] {
+            {1, 3},
+            {2, 4}
+        };
+        m = new Matrix(A);
+        t = m.transpose();
+        assertTrue(Arrays.deepEquals(t.getArray(), target));
+        A = new double[][] {
+            {1, 2},
+            {3, 4},
+            {5, 6}
+        };
+        target = new double[][] {
+            {1, 3, 5},
+            {2, 4, 6}
+        };
+        m = new Matrix(A);
+        t = m.transpose();
+        assertTrue(Arrays.deepEquals(t.getArray(), target));
+    }
+
+    public void testNorml() {
+        Matrix m;
+        double[][] A;
+        double target;
+        A = new double[][] {
+            {1, -7},
+            {-2, -3}
+        };
+        target = 10;
+        m = new Matrix(A);
+        assertEquals(m.norml(), target);
+        A = new double[][] {
+            {5, -4, 2},
+            {-1, 2, 3},
+            {-2, 1, 0}
+        };
+        target = 8;
+        m = new Matrix(A);
+        assertEquals(m.norml(), target);
+    }
+
+    public void testNormInf() {
+        Matrix m;
+        double[][] A;
+        double target;
+        A = new double[][] {
+            {1, -7},
+            {-2, -3}
+        };
+        target = 8;
+        m = new Matrix(A);
+        assertEquals(m.normInf(), target);
+        A = new double[][] {
+            {5, -4, 2},
+            {-1, 2, 3},
+            {-2, 1, 0}
+        };
+        target = 11;
+        m = new Matrix(A);
+        assertEquals(m.normInf(), target);
+    }
+
+    public void testNormF() {
+        Matrix m;
+        double[][] A;
+        double target;
+        A = new double[][] {
+          {2, 2},
+          {2, -2}
+        };
+        target = 4;
+        m = new Matrix(A);
+        assertEquals(m.normF(), target);
+    }
 }
