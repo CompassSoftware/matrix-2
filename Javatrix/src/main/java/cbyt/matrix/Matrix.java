@@ -312,10 +312,56 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @param    c array of target columns
      * @param    X new matrix
      */
-    public void set(int[] r, int[] c, Matrix X) {
+    public void setMatrix(int[] r, int[] c, Matrix X) {
         for (int i = 0; i < r.length; i++) {
             for (int j = 0; j < c.length; j++) {
                 X.matrix[i][j] = this.matrix[r[i] - 1][c[j] - 1];
+            }
+        }
+    }
+
+    /**
+     * Sets a submatrix mapped across rows in r and columns from j0 to j1
+     * @param  r int[] contained row indeces
+     * @param  j0 starting column index
+     * @param  j1 ending column index
+     * @param  X target Matrix
+     */
+    public void setMatrix(int[] r, int j0, int j1, Matrix X) {
+        for (int i = 0; i < r.length; i++) {
+            for (int j = j0; j <= j1; j++) {
+                X.matrix[i][j - j0] = this.matrix[r[i] - 1][j - 1];
+            }
+        }
+    }
+
+    /**
+     * Sets a submatrix mapped from rows i0 to i1 and columns in c
+     * @param   i0 starting row index
+     * @param   i1 ending row index
+     * @param   c int[] containing column indeces
+     * @param   X target Matrix
+     */
+    public void setMatrix(int i0, int i1, int[] c, Matrix X) {
+        for (int i = i0; i <= i1; i++) {
+            for (int j = 0; j < c.length; j++) {
+                X.matrix[i - i0][j] = this.matrix[i - 1][c[j] - 1];
+            }
+        }
+    }
+
+    /**
+     * Sets a submatrix mapped from rows i0 to i1 and columns j0 to j1.
+     * @param  i0 starting row index
+     * @param  i1 ending row index
+     * @param  j0 starting column index
+     * @param  j1 ending column index
+     * @param  X target Matrix
+     */
+    public void setMatrix(int i0, int i1, int j0, int j1, Matrix X) {
+        for (int i = i0; i <= i1; i++) {
+            for (int j = j0; j <= j1; j++) {
+                X.matrix[i - i0][j- j0] = this.matrix[i - 1][j - 1];
             }
         }
     }
