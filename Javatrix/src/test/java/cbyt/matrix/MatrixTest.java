@@ -153,7 +153,6 @@ public class MatrixTest extends TestCase {
     public void testGetArray() {
         double[][] A = {{1,2,3},{1,2,3},{1,2,3}};
         Matrix m = new Matrix(A);
-        assertEquals(A, m.getArray());
         assertTrue(
             Arrays.deepEquals(A, m.getArray())
         );
