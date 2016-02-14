@@ -799,4 +799,55 @@ public class MatrixTest extends TestCase {
         m = new Matrix(A);
         assertEquals(m.normF(), target);
     }
+
+    public void testArrayRightDivide() {
+        double[][] a, b, c;
+        Matrix A, B, C;
+        a = new double[][] {
+            {2, 4, 6, 8},
+            {3, 5, 7, 9}
+        };
+        A = new Matrix(a);
+        B = new Matrix(2, 4, 10.0);
+        c = new double[][] {
+            {0.2, 0.4, 0.6, 0.8},
+            {0.3, 0.5, 0.7, 0.9}
+        };
+        C = A.arrayRightDivide(B);
+        assertTrue(Arrays.deepEquals(C.getArray(), c));
+        B = new Matrix(1, 4, 10.0);
+        c = new double[][] {
+            {0.2, 0.4, 0.6, 0.8},
+            {3, 5, 7, 9}
+        };
+        C = A.arrayRightDivide(B);
+        assertTrue(Arrays.deepEquals(C.getArray(), c));
+    }
+
+    public void testArrayRightDivideEquals() {
+        double[][] a, b, c;
+        Matrix A, B, C;
+        a = new double[][] {
+            {2, 4, 6, 8},
+            {3, 5, 7, 9}
+        };
+        A = new Matrix(a);
+        B = new Matrix(2, 4, 10.0);
+        c = new double[][] {
+            {0.2, 0.4, 0.6, 0.8},
+            {0.3, 0.5, 0.7, 0.9}
+        };
+        C = A.arrayRightDivideEquals(B);
+        assertTrue(Arrays.deepEquals(C.getArray(), c));
+        assertTrue(Arrays.deepEquals(A.getArray(), c));
+        A = new Matrix(a);
+        B = new Matrix(1, 4, 10.0);
+        c = new double[][] {
+            {0.2, 0.4, 0.6, 0.8},
+            {3, 5, 7, 9}
+        };
+        C = A.arrayRightDivideEquals(B);
+        assertTrue(Arrays.deepEquals(C.getArray(), c));
+        assertTrue(Arrays.deepEquals(A.getArray(), c));
+    }
 }

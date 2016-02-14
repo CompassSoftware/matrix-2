@@ -462,6 +462,48 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     }
 
     /**
+     * Returns a matrix representing A./B.
+     * If B is smaller than calling Matrix, then B is expanded with ones.
+     * @param    B The second Matrix.
+     * @return   this./B.
+     * @exception ArrayIndexOutOfBoundsException If B is larger than calling
+     *            Matrix.
+     */
+    public Matrix arrayRightDivide(Matrix B) {
+        double[][] target = new double[this.rowLength][this.colLength];
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
+                target[i][j] = this.matrix[i][j];
+            }
+        }
+        for (int i = 0; i < B.getRowDimension(); i++) {
+            for (int j = 0; j < B.getColDimension(); j++) {
+                target[i][j] = target[i][j] / B.get(i, j);
+            }
+        }
+        return new Matrix(target);
+    }
+
+    /**
+     * Returns a matrix representing A./B. Also applies the divisino to calling
+     * Matrix's internal array.
+     * If B is smaller than calling Matrix, then B is expanded with ones.
+     * @param    B The second Matrix.
+     * @return   this./B.
+     * @exception ArrayIndexOutOfBoundsException If B is larger than calling
+     *            Matrix.
+     */
+    public Matrix arrayRightDivideEquals(Matrix B) {
+        Matrix C = this.arrayRightDivide(B);
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
+                this.matrix[i][j] = C.matrix[i][j];
+            }
+        }
+        return C;
+    }
+
+    /**
     * Return a deep copy a matrix
     * @return   A deep copy of a matrix
     */
