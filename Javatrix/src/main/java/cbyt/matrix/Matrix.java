@@ -504,6 +504,38 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     }
 
     /**
+     * Returns a matrix representing A.\B.
+     * If calling matrix is larger than B, it is expanded with ones.
+     * @param    B The second Matrix.
+     * @return   this.\B.
+     * @exception ArrayIndexOutOfBoundsException calling Matrix is larger than
+     *            passed Matrix.
+     */
+    public Matrix arrayLeftDivide(Matrix B) {
+        return B.arrayRightDivide(this);
+    }
+
+    /**
+     * Returns a matrix representing A.\B. Also applies the divisino to calling
+     * Matrix's internal array.
+     * If calling matrix is larger than B, it is expanded with ones.
+     * @param    B The second Matrix.
+     * @return   this.\B.
+     * @exception ArrayIndexOutOfBoundsException If calling Matrix is larger
+     *            than B.
+     */
+    public Matrix arrayLeftDivideEquals(Matrix B) {
+        Matrix C = B.arrayRightDivide(this);
+        this.matrix = new double[C.rowLength][C.colLength];
+        for (int i = 0; i < C.rowLength; i++) {
+            for (int j = 0; j < C.colLength; j++) {
+                this.matrix[i][j] = C.matrix[i][j];
+            }
+        }
+        return C;
+    }
+
+    /**
     * Return a deep copy a matrix
     * @return   A deep copy of a matrix
     */
