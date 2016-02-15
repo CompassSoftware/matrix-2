@@ -974,11 +974,10 @@ public class MatrixTest extends TestCase {
         C = A.times(B);
         assertEquals(2, C.getRowDimension());
         assertEquals(2, C.getColDimension());
-        for (int i = 0; i < c.length; i++) {
-            for (int j = 0; j < c[0].length; j++) {
+        for (int i = 0; i < C.getRowDimension(); i++) {
+            for (int j = 0; j < C.getColDimension(); j++) {
                 assertEquals(c[i][j], C.get(i, j));
             }
         }
-        assertTrue(Arrays.deepEquals(C.getArray(), c));
     }
 }
