@@ -462,6 +462,85 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     }
 
     /**
+     * Adding two matrices, store the result in one of the original matrices and return it
+     * @param  B a matrix
+     * @return   A the resulting matrix
+     */
+    public Matrix plusEquals(Matrix B)  throws java.lang.IllegalArgumentException {
+        Matrix A = this;
+        if (A.getColDimension() != B.getColDimension()) {
+            throw new java.lang.IllegalArgumentException(
+               "Column dimensions must be equal"
+            );
+        }
+        if (A.getRowDimension() != B.getRowDimension()) {
+            throw new java.lang.IllegalArgumentException(
+               "Row dimensions must be equal"
+            );
+        }
+        for (int i = 0; i < rowLength; i++) {
+             for (int j = 0; j < colLength; j++) {
+                 A.matrix[i][j] = A.matrix[i][j] + B.matrix[i][j];
+             }
+        }
+        return A;
+    }
+
+    /**
+     * Performs an element wise multiplication between the calling and passed
+     * matrices. If passes Matrix is smaller than calling Matrix, it is expanded
+     * with ones.
+     * @param  B Second Matrix to be multiplied with calling Matrix.
+     * @return   A.*B
+     */
+    public Matrix arrayTimes(Matrix B) {
+        double[][] target = new double[this.rowLength][this.colLength];
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
+                target[i][j] = this.matrix[i][j];
+            }
+        }
+        for (int i = 0; i < B.getRowDimension(); i++) {
+            for (int j = 0; j < B.getColDimension(); j++) {
+                target[i][j] = target[i][j] * B.get(i, j);
+            }
+        }
+        return new Matrix(target);
+    }
+
+    /**
+     * Multiplya matrix by a scalar.
+     * @param  s a scalar value
+     * @return   C is the resulting matrix.
+     */
+    public Matrix times(double s) {
+        Matrix A = this;
+        Matrix C = new Matrix(this.rowLength, this.colLength);
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
+                C.matrix[i][j] = s * A.matrix[i][j];
+            }
+        }
+        return C;
+    }
+
+    /**
+     * Multiplya matrix by a scalar.
+     * @param  s a scalar value
+     * @return   A is the resulting matrix.
+     */
+    public Matrix timesEquals(double s) {
+        Matrix A = this;
+
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
+                A.matrix[i][j] = s * A.matrix[i][j];
+            }
+        }
+        return A;
+    }
+
+    /**
      * Returns a matrix representing A./B.
      * If B is smaller than calling Matrix, then B is expanded with ones.
      * @param    B The second Matrix.
