@@ -1,9 +1,14 @@
 package cbyt.matrix;
 
 import java.io.Serializable;
+import java.io.PrintWriter;
 import java.lang.Cloneable;
 import java.lang.IllegalArgumentException;
 import java.lang.Math;
+import java.text.NumberFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 /**
  * Javatrix = Java Matrix class.
@@ -52,9 +57,14 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
                     }
                 }
             }
-            this.matrix = A;
-            this.colLength = this.matrix.length;
-            this.rowLength = ((this.colLength > 0) ? this.matrix[0].length : 0);
+            this.rowLength = A.length;
+            this.colLength = A[0].length;
+            this.matrix = new double[this.rowLength][this.colLength];
+            for (int i = 0; i < this.rowLength; i++) {
+                for (int j = 0; j < this.colLength; j++) {
+                    this.matrix[i][j] = A[i][j];
+                }
+            }
         }
         else if (A.length == 0) {
             this.matrix = new double[0][0];
@@ -291,6 +301,264 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         return target;
     }
 
+    /**
+     * Sets element at index i j to value s.
+     * @param    i row index.
+     * @param    j col index.
+     * @param    s target value.
+     */
+    public void set(int i, int j, double s) {
+        this.matrix[i][j] = s;
+    }
+
+    /**
+     * Sets sub matrix mapped by values of r and c to s.
+     * @param    r array of target rows
+     * @param    c array of target columns
+     * @param    X new matrix
+     */
+    public void setMatrix(int[] r, int[] c, Matrix X) {
+        for (int i = 0; i < r.length; i++) {
+            for (int j = 0; j < c.length; j++) {
+                X.matrix[i][j] = this.matrix[r[i] - 1][c[j] - 1];
+            }
+        }
+    }
+
+    /**
+     * Sets a submatrix mapped across rows in r and columns from j0 to j1
+     * @param  r int[] contained row indeces
+     * @param  j0 starting column index
+     * @param  j1 ending column index
+     * @param  X target Matrix
+     */
+    public void setMatrix(int[] r, int j0, int j1, Matrix X) {
+        for (int i = 0; i < r.length; i++) {
+            for (int j = j0; j <= j1; j++) {
+                X.matrix[i][j - j0] = this.matrix[r[i] - 1][j - 1];
+            }
+        }
+    }
+
+    /**
+     * Sets a submatrix mapped from rows i0 to i1 and columns in c
+     * @param   i0 starting row index
+     * @param   i1 ending row index
+     * @param   c int[] containing column indeces
+     * @param   X target Matrix
+     */
+    public void setMatrix(int i0, int i1, int[] c, Matrix X) {
+        for (int i = i0; i <= i1; i++) {
+            for (int j = 0; j < c.length; j++) {
+                X.matrix[i - i0][j] = this.matrix[i - 1][c[j] - 1];
+            }
+        }
+    }
+
+    /**
+     * Sets a submatrix mapped from rows i0 to i1 and columns j0 to j1.
+     * @param  i0 starting row index
+     * @param  i1 ending row index
+     * @param  j0 starting column index
+     * @param  j1 ending column index
+     * @param  X target Matrix
+     */
+    public void setMatrix(int i0, int i1, int j0, int j1, Matrix X) {
+        for (int i = i0; i <= i1; i++) {
+            for (int j = j0; j <= j1; j++) {
+                X.matrix[i - i0][j- j0] = this.matrix[i - 1][j - 1];
+            }
+        }
+    }
+
+    /**
+     * Retrusn the transpose of calling Matrix.
+     * @return The transpose of calling Matrix.
+     */
+    public Matrix transpose() {
+        double[][] target = new double[this.colLength][this.rowLength];
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
+                target[j][i] = this.matrix[i][j];
+            }
+        }
+        return new Matrix(target);
+    }
+
+    /**
+     * Calculated the l-norm of the calling Matrix.
+     * @return The l-norm
+     */
+    public double norml() {
+        double[] sums = new double[this.colLength];
+        double rt;
+        for (int j = 0; j < this.colLength; j++) {
+            rt = 0;
+            for (int i = 0; i < this.rowLength; i++) {
+                rt += Math.abs(this.matrix[i][j]);
+            }
+            sums[j] = rt;
+        }
+        return max(sums);
+    }
+
+    /**
+     * Calculates the infinity-norm of the calling Matrix.
+     * @return The infinity-norm.
+     */
+    public double normInf() {
+        double[] sums = new double[this.rowLength];
+        double rt;
+        for (int i = 0; i < this.rowLength; i++) {
+            rt = 0;
+            for (int j = 0; j < this.colLength; j++) {
+                rt += Math.abs(this.matrix[i][j]);
+            }
+            sums[i] = rt;
+        }
+        return max(sums);
+    }
+
+    /**
+     * Calculates the Frobenius norm of the calling Matrix.
+     * @return The Frobenius norm.
+     */
+    public double normF() {
+          double fn = 0;
+          for (double[] row: this.matrix) {
+              for (double elem: row) {
+                  fn += (elem * elem);
+              }
+          }
+          return Math.sqrt(fn);
+    }
+
+    /**
+     * Returns the max values in an array of doubles.
+     * @return Max value in a.
+     */
+    private double max(double[] a) {
+        double max = a[0];
+        for (double x: a) {
+            if (x > max) max = x;
+        }
+        return max;
+    }
+
+    /**
+     * Adding two matrices and return a matrix
+     * @param  B a matrix
+     * @return   the resulting matrix
+     */
+    public Matrix plus(Matrix B) {
+        Matrix A = this;
+        Matrix C = new Matrix(this.rowLength, this.colLength);
+        for (int i = 0; i < rowLength; i++) {
+            for (int j = 0; j < colLength; j++) {
+                C.matrix[i][j] = A.matrix[i][j] + B.matrix[i][j];
+            }
+        }
+        return C;
+    }
+
+    /**
+     * Returns a matrix representing A./B.
+     * If B is smaller than calling Matrix, then B is expanded with ones.
+     * @param    B The second Matrix.
+     * @return   this./B.
+     * @exception ArrayIndexOutOfBoundsException If B is larger than calling
+     *            Matrix.
+     */
+    public Matrix arrayRightDivide(Matrix B) {
+        double[][] target = new double[this.rowLength][this.colLength];
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
+                target[i][j] = this.matrix[i][j];
+            }
+        }
+        for (int i = 0; i < B.getRowDimension(); i++) {
+            for (int j = 0; j < B.getColDimension(); j++) {
+                target[i][j] = target[i][j] / B.get(i, j);
+            }
+        }
+        return new Matrix(target);
+    }
+
+    /**
+     * Returns a matrix representing A./B. Also applies the divisino to calling
+     * Matrix's internal array.
+     * If B is smaller than calling Matrix, then B is expanded with ones.
+     * @param    B The second Matrix.
+     * @return   this./B.
+     * @exception ArrayIndexOutOfBoundsException If B is larger than calling
+     *            Matrix.
+     */
+    public Matrix arrayRightDivideEquals(Matrix B) {
+        Matrix C = this.arrayRightDivide(B);
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
+                this.matrix[i][j] = C.matrix[i][j];
+            }
+        }
+        return C;
+    }
+
+    /**
+     * Returns a matrix representing A.\B.
+     * If calling matrix is larger than B, it is expanded with ones.
+     * @param    B The second Matrix.
+     * @return   this.\B.
+     * @exception ArrayIndexOutOfBoundsException calling Matrix is larger than
+     *            passed Matrix.
+     */
+    public Matrix arrayLeftDivide(Matrix B) {
+        return B.arrayRightDivide(this);
+    }
+
+    /**
+     * Returns a matrix representing A.\B. Also applies the divisino to calling
+     * Matrix's internal array.
+     * If calling matrix is larger than B, it is expanded with ones.
+     * @param    B The second Matrix.
+     * @return   this.\B.
+     * @exception ArrayIndexOutOfBoundsException If calling Matrix is larger
+     *            than B.
+     */
+    public Matrix arrayLeftDivideEquals(Matrix B) {
+        Matrix C = B.arrayRightDivide(this);
+        this.matrix = new double[C.rowLength][C.colLength];
+        for (int i = 0; i < C.rowLength; i++) {
+            for (int j = 0; j < C.colLength; j++) {
+                this.matrix[i][j] = C.matrix[i][j];
+            }
+        }
+        return C;
+    }
+
+    /**
+    * Return a deep copy a matrix
+    * @return   A deep copy of a matrix
+    */
+    public Matrix copy() {
+        double[][] A = new double[rowLength][colLength];
+        for (int i = 0; i < rowLength; i++) {
+            for (int j = 0; j < colLength; j++) {
+                A[i][j] = this.matrix[i][j];
+            }
+        }
+        Matrix m = new Matrix(A, rowLength, colLength);
+        return m;
+    }
+
+    /**
+     * Clone the Matrix Object.
+     * @return Object.
+     */
+    public Object clone() {
+        return this.copy();
+    }
+
+
      /**
       * Generate identity matrix.
       * @param   m Number of rows.
@@ -344,30 +612,6 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
             return new Matrix(0, 0);
         }
     }
-
-    /**
-    * Return a deep copy a matrix
-    * @return   A deep copy of a matrix
-    */
-    public Matrix copy() {
-        double[][] A = new double[rowLength][colLength];
-        for (int i = 0; i < rowLength; i++) {
-            for (int j = 0; j < colLength; j++) {
-                A[i][j] = this.matrix[i][j];
-            }
-        }
-        Matrix m = new Matrix(A, rowLength, colLength);
-        return m;
-    }
-
-    /**
-     * Clone the Matrix Object.
-     * @return Object.
-     */
-    public Object clone() {
-        return this.copy();
-    }
-
     /**
     * Fill a matrix with random elements
     * @return a matrix with random elements
@@ -393,12 +637,101 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     }
 
     /**
+<<<<<<< HEAD
      * Adding two matrices and return a matrix
      * @param  B a matrix
      * @return   C the resulting matrix
      */
     public Matrix plus(Matrix B) throws java.lang.IllegalArgumentException {
+=======
+     * Print the matrix to stdout. Line the elements up in columns with a Fortran-like `Fw.d` style format.
+     * @param  w Column width.
+     * @param  d Number of digits after the decimal.
+     */
+    public void print(int w, int d) {
+        this.print(new PrintWriter(System.out, true), w, d);
+    }
+
+    /**
+     * Print the matrix to the output stream. Line the elements up in columns with a Fortran-like 'Fw.d' style format.
+     * @param  output Output stream.
+     * @param  w      Column width.
+     * @param  d      Number of digits after the decimal.
+     */
+    public void print(PrintWriter output, int w, int d) {
+        DecimalFormat format = new DecimalFormat();
+        format.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
+        format.setMinimumIntegerDigits(1);
+        format.setMaximumFractionDigits(d);
+        format.setMinimumFractionDigits(d);
+        format.setGroupingUsed(false);
+        this.print(output, format, (w + 2));
+    }
+
+    /**
+     * Print the matrix to stdout. Line the elements up in columns. Use the format object, and right justify within columns of width characters. Note that is the matrix is to be read back in, you probably will want to use a NumberFormat that is set to US Locale.
+     * @param  format A Formatting object for individual elements.
+     * @param  width  Field width for each column.
+     */
+    public void print(NumberFormat format, int width) {
+        this.print(new PrintWriter(System.out, true), format, width);
+    }
+
+    /**
+     * Print the matrix to the output stream. Line the elements up in columns. Use the format object, and right justify within columns of width characters. Note that is the matrix is to be read back in, you probably will want to use a NumberFormat that is set to US Locale.
+     * @param  output The output stream.
+     * @param  format A formatting object to format the matrix elements.
+     * @param  width  Column width.
+     */
+    public void print(PrintWriter output, NumberFormat format, int width) {
+        output.println();
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
+                String element = format.format(this.matrix[i][j]);
+                int padding = Math.max(1, (width - element.length()));
+                for (int k = 0; k < padding; k++) {
+                    output.print(" ");
+                }
+                output.print(element);
+            }
+            output.println();
+        }
+        output.println();
+    }
+
+    /**
+     * Performs a urnary minus operation on a matrix; A.uminus = -A
+     * @return returns -A
+     */
+    public Matrix uminus() {
+>>>>>>> 39a8f7e40c4410445ee20c2d577742a275542f7c
         Matrix A = this;
+        Matrix B = new Matrix(this.rowLength, this.colLength);
+        for (int i = 0; i < rowLength; i++) {
+            for (int j = 0; j < colLength; j++) {
+                B.matrix[i][j] = -1 * A.matrix[i][j];
+            }
+        }
+        return B;
+    }
+
+    /**
+     * Performs a minus operation on a matrix.
+     * @param  B a matrix to be subtracted from A
+     * @return  A - B
+     */
+    public Matrix minus(Matrix B) throws java.lang.IllegalArgumentException {
+        Matrix A = this;
+        if (A.getColDimension() != B.getColDimension()) {
+            throw new java.lang.IllegalArgumentException(
+                "Column dimensions must be equal."
+            );
+        }
+        if (A.getRowDimension() != B.getRowDimension()) {
+            throw new java.lang.IllegalArgumentException(
+                "Row dimensions must be equal."
+            );
+        }
         Matrix C = new Matrix(this.rowLength, this.colLength);
         if (A.getColDimension() != B.getColDimension()) {
             throw new java.lang.IllegalArgumentException(
@@ -412,13 +745,14 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         }
         for (int i = 0; i < rowLength; i++) {
             for (int j = 0; j < colLength; j++) {
-                C.matrix[i][j] = A.matrix[i][j] + B.matrix[i][j];
+                C.matrix[i][j] = A.matrix[i][j] - B.matrix[i][j];
             }
         }
         return C;
     }
 
     /**
+<<<<<<< HEAD
      * Adding two matrices, store the result in one of the original matrices and return it
      * @param  B a matrix
      * @return   A the resulting matrix
@@ -428,20 +762,40 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         if (A.getColDimension() != B.getColDimension()) {
             throw new java.lang.IllegalArgumentException(
                 "Column dimension must be equal"
+=======
+     * Subtracts matrix B from matrix A and puts result in A
+     * @param  B matrix to be subtracted
+     * @return   A - B
+     */
+    public Matrix minusEquals(Matrix B) throws java.lang.IllegalArgumentException {
+        Matrix A = this;
+        if (A.getColDimension() != B.getColDimension()) {
+            throw new java.lang.IllegalArgumentException(
+                "Column dimensions must be equal."
+>>>>>>> 39a8f7e40c4410445ee20c2d577742a275542f7c
             );
         }
         if (A.getRowDimension() != B.getRowDimension()) {
             throw new java.lang.IllegalArgumentException(
+<<<<<<< HEAD
                 "Row dimension must be equal"
+=======
+                "Row dimensions must be equal."
+>>>>>>> 39a8f7e40c4410445ee20c2d577742a275542f7c
             );
         }
         for (int i = 0; i < rowLength; i++) {
             for (int j = 0; j < colLength; j++) {
+<<<<<<< HEAD
                 A.matrix[i][j] = A.matrix[i][j] + B.matrix[i][j];
+=======
+                A.matrix[i][j] = A.matrix[i][j] - B.matrix[i][j];
+>>>>>>> 39a8f7e40c4410445ee20c2d577742a275542f7c
             }
         }
         return A;
     }
+<<<<<<< HEAD
 
     public Matrix arrayTimes(Matrix B) {
         //TODO Check for rowA == columnB; Resulting matrix: dimension = rowA x columnB
@@ -461,4 +815,6 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         }
         return C;
     }
+=======
+>>>>>>> 39a8f7e40c4410445ee20c2d577742a275542f7c
 }
