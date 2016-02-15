@@ -536,6 +536,28 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     }
 
     /**
+     * Performs an element wise multiplication between the calling and passed
+     * matrices. If passes Matrix is smaller than calling Matrix, it is expanded
+     * with ones.
+     * @param  B Second Matrix to be multiplied with calling Matrix.
+     * @return   A.*B
+     */
+    public Matrix arrayTimes(Matrix B) {
+        double[][] target = new double[this.rowLength][this.colLength];
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
+                target[i][j] = this.matrix[i][j];
+            }
+        }
+        for (int i = 0; i < B.getRowDimension(); i++) {
+            for (int j = 0; j < B.getColDimension(); j++) {
+                target[i][j] = target[i][j] * B.get(i, j);
+            }
+        }
+        return new Matrix(target);
+    }
+
+    /**
     * Return a deep copy a matrix
     * @return   A deep copy of a matrix
     */
