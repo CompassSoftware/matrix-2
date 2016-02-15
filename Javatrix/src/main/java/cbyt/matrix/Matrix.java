@@ -400,9 +400,14 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     public Matrix plus(Matrix B) throws java.lang.IllegalArgumentException {
         Matrix A = this;
         Matrix C = new Matrix(this.rowLength, this.colLength);
-        if (A.getColDimension() != B.getColDimension() || A.getRowDimension() != B.getRowDimension()) {
+        if (A.getColDimension() != B.getColDimension()) {
             throw new java.lang.IllegalArgumentException(
-                "Column dimension and row dimension must be equals"
+                "Column dimension must be equal"
+            );
+        }
+        if (A.getRowDimension() != B.getRowDimension()) {
+            throw new java.lang.IllegalArgumentException(
+                "Row dimension must be equal"
             );
         }
         for (int i = 0; i < rowLength; i++) {
@@ -420,9 +425,14 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      */
     public Matrix plusEquals(Matrix B)  throws java.lang.IllegalArgumentException {
         Matrix A = this;
-        if (A.getColDimension() != B.getColDimension() || A.getRowDimension() != B.getRowDimension()) {
+        if (A.getColDimension() != B.getColDimension()) {
             throw new java.lang.IllegalArgumentException(
-                "Column dimension and row dimension must be equals"
+                "Column dimension must be equal"
+            );
+        }
+        if (A.getRowDimension() != B.getRowDimension()) {
+            throw new java.lang.IllegalArgumentException(
+                "Row dimension must be equal"
             );
         }
         for (int i = 0; i < rowLength; i++) {
@@ -431,5 +441,24 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
             }
         }
         return A;
+    }
+
+    public Matrix arrayTimes(Matrix B) {
+        //TODO Check for rowA == columnB; Resulting matrix: dimension = rowA x columnB
+        Matrix A = this;
+        if (A.getRowDimension() != B.getColDimension()) {
+            throw new java.lang.IllegalArgumentException(
+                "Row dimension of A must be equal to Column dimension of B"
+            );
+        }
+        Matrix C = new Matrix(A.rowLength, B.colLength);
+        for (int i = 0; i < C.rowLength; i++) {
+            for (int j = 0; j < C.colLength; j++) {
+                for (int h = 0; h < A.colLength; h++) {
+                    C.matrix[i][j] += A.matrix[i][h] * B.matrix[h][j];
+                }
+            }
+        }
+        return C;
     }
 }
