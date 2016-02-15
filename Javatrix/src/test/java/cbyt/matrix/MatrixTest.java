@@ -925,4 +925,31 @@ public class MatrixTest extends TestCase {
         C = A.arrayTimes(B);
         assertTrue(Arrays.deepEquals(C.getArray(), c));
     }
+
+    public void testArrayMultiplyEquals() {
+        double[][] a, b, c;
+        Matrix A, B, C;
+        a = new double[][] {
+            {2, 4, 6, 8},
+            {3, 5, 7, 9}
+        };
+        A = new Matrix(a);
+        B = new Matrix(2, 4, 10.0);
+        c = new double[][] {
+            {20, 40, 60, 80},
+            {30, 50, 70, 90}
+        };
+        C = A.arrayTimesEquals(B);
+        assertTrue(Arrays.deepEquals(C.getArray(), c));
+        assertTrue(Arrays.deepEquals(A.getArray(), c));
+        A = new Matrix(a);
+        B = new Matrix(1, 4, 10.0);
+        c = new double[][] {
+            {20, 40, 60, 80},
+            {3, 5, 7, 9}
+        };
+        C = A.arrayTimesEquals(B);
+        assertTrue(Arrays.deepEquals(C.getArray(), c));
+        assertTrue(Arrays.deepEquals(A.getArray(), c));
+    }
 }
