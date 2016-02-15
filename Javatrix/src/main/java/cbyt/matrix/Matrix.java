@@ -346,6 +346,80 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     }
 
     /**
+     * Returns a matrix representing A./B.
+     * If B is smaller than calling Matrix, then B is expanded with ones.
+     * @param    B The second Matrix.
+     * @return   this./B.
+     * @exception ArrayIndexOutOfBoundsException If B is larger than calling
+     *            Matrix.
+     */
+    public Matrix arrayRightDivide(Matrix B) {
+        double[][] target = new double[this.rowLength][this.colLength];
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
+                target[i][j] = this.matrix[i][j];
+            }
+        }
+        for (int i = 0; i < B.getRowDimension(); i++) {
+            for (int j = 0; j < B.getColDimension(); j++) {
+                target[i][j] = target[i][j] / B.get(i, j);
+            }
+        }
+        return new Matrix(target);
+    }
+
+    /**
+     * Returns a matrix representing A./B. Also applies the divisino to calling
+     * Matrix's internal array.
+     * If B is smaller than calling Matrix, then B is expanded with ones.
+     * @param    B The second Matrix.
+     * @return   this./B.
+     * @exception ArrayIndexOutOfBoundsException If B is larger than calling
+     *            Matrix.
+     */
+    public Matrix arrayRightDivideEquals(Matrix B) {
+        Matrix C = this.arrayRightDivide(B);
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
+                this.matrix[i][j] = C.matrix[i][j];
+            }
+        }
+        return C;
+    }
+
+    /**
+     * Returns a matrix representing A.\B.
+     * If calling matrix is larger than B, it is expanded with ones.
+     * @param    B The second Matrix.
+     * @return   this.\B.
+     * @exception ArrayIndexOutOfBoundsException calling Matrix is larger than
+     *            passed Matrix.
+     */
+    public Matrix arrayLeftDivide(Matrix B) {
+        return B.arrayRightDivide(this);
+    }
+
+    /**
+     * Returns a matrix representing A.\B. Also applies the divisino to calling
+     * Matrix's internal array.
+     * If calling matrix is larger than B, it is expanded with ones.
+     * @param    B The second Matrix.
+     * @return   this.\B.
+     * @exception ArrayIndexOutOfBoundsException If calling Matrix is larger
+     *            than B.
+     */
+    public Matrix arrayLeftDivideEquals(Matrix B) {
+        Matrix C = this.arrayLeftDivide(B);
+        this.matrix = new double[C.rowLength][C.colLength];
+        for (int i = 0; i < C.rowLength; i++) {
+            for (int j = 0; j < C.colLength; j++) {
+                this.matrix[i][j] = C.matrix[i][j];
+            }
+        }
+        return C;
+    }
+
+    /**
     * Return a deep copy a matrix
     * @return   A deep copy of a matrix
     */
@@ -441,24 +515,5 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
             }
         }
         return A;
-    }
-
-    public Matrix arrayTimes(Matrix B) {
-        //TODO Check for rowA == columnB; Resulting matrix: dimension = rowA x columnB
-        Matrix A = this;
-        if (A.getRowDimension() != B.getColDimension()) {
-            throw new java.lang.IllegalArgumentException(
-                "Row dimension of A must be equal to Column dimension of B"
-            );
-        }
-        Matrix C = new Matrix(A.rowLength, B.colLength);
-        for (int i = 0; i < C.rowLength; i++) {
-            for (int j = 0; j < C.colLength; j++) {
-                for (int h = 0; h < A.colLength; h++) {
-                    C.matrix[i][j] += A.matrix[i][h] * B.matrix[h][j];
-                }
-            }
-        }
-        return C;
     }
 }
