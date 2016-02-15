@@ -575,6 +575,23 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     }
 
     /**
+     * Performs matrix multiplaction with passed Matrix.
+     * @param  B Matrix to multiply calling Matrix with.
+     * @return   A*B
+     */
+    public Matrix times(Matrix B) {
+        double[][] target = new double[this.rowLength][B.colLength];
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < B.colLength; j++) {
+                for (int k = 0; k < this.colLength; k++) {
+                    target[i][j] += (this.matrix[i][k] * B.matrix[k][j]);
+                }
+            }
+        }
+        return new Matrix(target);
+    }
+
+    /**
     * Return a deep copy a matrix
     * @return   A deep copy of a matrix
     */

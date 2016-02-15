@@ -902,7 +902,7 @@ public class MatrixTest extends TestCase {
         assertTrue(Arrays.deepEquals(A.getArray(), c));
     }
 
-    public void testArrayMultiply() {
+    public void testArrayTimes() {
         double[][] a, b, c;
         Matrix A, B, C;
         a = new double[][] {
@@ -926,7 +926,7 @@ public class MatrixTest extends TestCase {
         assertTrue(Arrays.deepEquals(C.getArray(), c));
     }
 
-    public void testArrayMultiplyEquals() {
+    public void testArrayTimesEquals() {
         double[][] a, b, c;
         Matrix A, B, C;
         a = new double[][] {
@@ -951,5 +951,34 @@ public class MatrixTest extends TestCase {
         C = A.arrayTimesEquals(B);
         assertTrue(Arrays.deepEquals(C.getArray(), c));
         assertTrue(Arrays.deepEquals(A.getArray(), c));
+    }
+
+    public void testTimes() {
+        double[][] a, b, c;
+        Matrix A, B, C;
+        a = new double[][] {
+            {1, 2, 3},
+            {4, 5, 6}
+        };
+        b = new double[][] {
+            {7, 8},
+            {9, 10},
+            {11, 12}
+        };
+        c = new double[][] {
+            {58, 64},
+            {139, 154}
+        };
+        A = new Matrix(a);
+        B = new Matrix(b);
+        C = A.times(B);
+        assertEquals(2, C.getRowDimension());
+        assertEquals(2, C.getColDimension());
+        for (int i = 0; i < c.length; i++) {
+            for (int j = 0; j < c[0].length; j++) {
+                assertEquals(c[i][j], C.get(i, j));
+            }
+        }
+        assertTrue(Arrays.deepEquals(C.getArray(), c));
     }
 }
