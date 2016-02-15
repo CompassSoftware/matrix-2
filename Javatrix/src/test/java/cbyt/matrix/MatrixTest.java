@@ -1,7 +1,23 @@
+/**
+* @Author: ritashugisha
+* @Date:   2016-02-15T13:24:39-05:00
+* @Email:  ritashugisha@gmail.com
+* @Last modified by:   ritashugisha
+* @Last modified time: 2016-02-15T15:42:45-05:00
+*/
+
+
+
 package cbyt.matrix;
 
+import java.io.File;
+import java.io.Writer;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
 import java.io.ByteArrayOutputStream;
 import java.text.NumberFormat;
 import java.text.DecimalFormat;
@@ -13,6 +29,7 @@ import java.util.Locale;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.apache.commons.io.FileUtils;
 
 
 /**
@@ -20,6 +37,23 @@ import junit.framework.TestSuite;
  *
  */
 public class MatrixTest extends TestCase {
+
+    /**
+     * The compiled class filepath.
+     */
+    private final File classPath = new File(
+        MatrixTest.class
+        .getProtectionDomain().getCodeSource()
+        .getLocation().getPath()
+    );
+
+    /**
+     * Test resources directory (used for testRead).
+     * <i>Assumes you are executing tests using Maven on the same level as `pom.xml`.</i>
+     */
+    private final File testResourcesDir = new File(
+        this.classPath + File.separator + "testResources"
+    );
 
     /**
      * Redirected System.out buffer.
@@ -900,5 +934,97 @@ public class MatrixTest extends TestCase {
         C = A.arrayLeftDivideEquals(B);
         assertTrue(Arrays.deepEquals(C.getArray(), c));
         assertTrue(Arrays.deepEquals(A.getArray(), c));
+    }
+
+    public void testRead() {
+        double[][] A = {{1.0, 2.0, 3.0}, {1.0, 2.0, 3.0}, {1.0, 2.0, 3.0}};
+        Matrix mA = new Matrix(A);
+        double[][] B = {{1.2, 2.3, 3.4}, {1.3, 2.4, 3.5}, {1.4, 2.5, 3.6}};
+        Matrix mB = new Matrix(B);
+        double[][] C = {{1.25, 2.34, 3.47}, {1.34, 2.47, 3.56}, {1.47, 2.56, 3.69}};
+        Matrix mC = new Matrix(C);
+
+
+        Matrix[] matrices = {mA, mB, mC};
+        if (!this.testResourcesDir.exists()) {
+            this.testResourcesDir.mkdir();
+        }
+        int testCount = 0;
+        // 1-30 matrix spacing read
+        for (int i = 0; i < 30; i++) {
+            // 1-5 value decimal points
+            // NOTE: Be careful of rounded double values from "read"
+            for (int j = 0; j < 5; j++) {
+                // 1-3 test matrices {mA, mB, mC}
+                for (Matrix mI : matrices) {
+                    testCount++;
+
+                    // Build a test file in the testing resources directory
+                    try {
+                        File testFile = new File(
+                            this.testResourcesDir + File.separator +
+                            "testRead" + testCount + ".txt"
+                        );
+                        try {
+                            testFile.createNewFile();
+                        } catch (java.io.IOException exc) {
+                            this.origErrBuffer.println(
+                                "could not create test file at '" +
+                                testFile.getAbsolutePath() + "'"
+                            );
+                        }
+
+                        // Ensure the file exists then write the matrix to a string and a file
+                        if (testFile.exists()) {
+                            Writer ansWriter = new StringWriter();
+                            PrintWriter ansCapture = new PrintWriter(ansWriter);
+                            PrintWriter testWriter = new PrintWriter(testFile);
+                            mI.print(testWriter, i, j);
+                            mI.print(ansCapture, i, j);
+                            // Make sure to close the writer, will not write otherwise
+                            testWriter.close();
+                            ansCapture.close();
+
+                            // Convert the file into a readable buffer and build the new matrix
+                            try {
+                                BufferedReader testReader = new BufferedReader(new FileReader(testFile));
+                                Matrix testMatrix = Matrix.read(testReader);
+                                // XXX: If our rounding is greater than two decimal points, use default array validation
+                                if (j >= 2) {
+                                    assertTrue(Arrays.deepEquals(mI.getArray(), testMatrix.getArray()));
+                                } else {
+                                    // XXX: If our rounding is less than two decimal points, ensure the prints are the same
+                                    Writer evalWriter = new StringWriter();
+                                    PrintWriter evalCapture = new PrintWriter(evalWriter);
+                                    testMatrix.print(evalCapture, i, j);
+                                    evalCapture.close();
+                                    assertEquals(ansWriter.toString(), evalWriter.toString());
+                                }
+                            } catch (java.io.IOException exc) {
+                                this.origErrBuffer.println(
+                                    "could not read generated test file at '" +
+                                    testFile.getAbsolutePath() + "'"
+                                );
+                            }
+                        }
+                    } catch (java.io.FileNotFoundException exc) {
+                        this.origErrBuffer.println(
+                            "could not build test file to " +
+                            this.testResourcesDir.getAbsolutePath() + "'"
+                        );
+                    }
+                }
+            }
+        }
+        // Remove the test resource directory
+        // NOTE: Utilizes the org.apache.commons.io.FileUtils dependency
+        try {
+            FileUtils.deleteDirectory(this.testResourcesDir);
+        } catch (java.io.IOException exc) {
+            this.origErrBuffer.println(
+            "testing resource directory not found at " +
+            this.testResourcesDir.getAbsolutePath()
+            );
+        }
     }
 }

@@ -1,7 +1,20 @@
+/**
+* @Author: ritashugisha
+* @Date:   2016-02-15T12:56:44-05:00
+* @Email:  ritashugisha@gmail.com
+* @Last modified by:   ritashugisha
+* @Last modified time: 2016-02-15T14:46:48-05:00
+*/
+
+
+
 package cbyt.matrix;
 
 import java.io.Serializable;
 import java.io.PrintWriter;
+import java.io.BufferedReader;
+import java.io.StreamTokenizer;
+import java.io.IOException;
 import java.lang.Cloneable;
 import java.lang.IllegalArgumentException;
 import java.lang.Math;
@@ -9,6 +22,7 @@ import java.text.NumberFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
+import java.util.Vector;
 
 /**
  * Javatrix = Java Matrix class.
@@ -633,6 +647,68 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
                 A[i][j] = Math.random();
             }
         }
+        return new Matrix(A);
+    }
+
+    /**
+     * Read a matrix from a stream. The format is the same the print method, so printed matrices can be read back in (provided they were printed using US Locale). Elements are separated by whitespace, all the elements for each row appear on a single line, the last row is followed by a blank line.
+     * @param  input The input stream.
+     * @return       A Matrix as read from the input stream.
+     */
+    public static Matrix read(BufferedReader input) throws java.io.IOException {
+        StreamTokenizer tokenizer = new StreamTokenizer(input);
+        tokenizer.resetSyntax();
+        tokenizer.wordChars(0, 255);
+        tokenizer.whitespaceChars(0, ' ');
+        tokenizer.eolIsSignificant(true);
+        Vector<Double> vec = new Vector<Double>();
+
+        // Ignore beginning newlines
+        while (tokenizer.nextToken() == StreamTokenizer.TT_EOL);
+        if (tokenizer.ttype == StreamTokenizer.TT_EOF) {
+            throw new java.io.IOException(
+                "Unexpected EOF while reading matrix"
+            );
+        }
+        // Store matrix first row
+        do {
+
+            vec.addElement(Double.valueOf(tokenizer.sval));
+        } while (tokenizer.nextToken() == StreamTokenizer.TT_WORD);
+
+        // Get column size and extract the numeric values of the first row
+        int vecSize = vec.size();
+        double matrixRow[] = new double[vecSize];
+        for (int i = 0; i < vecSize; i++) {
+            matrixRow[i] = vec.elementAt(i).doubleValue();
+        }
+        // Store rows instead of columns
+        Vector<double[]> matrix = new Vector<double[]>();
+        matrix.addElement(matrixRow);
+
+        while (tokenizer.nextToken() == StreamTokenizer.TT_WORD) {
+            // Ignore empty lines
+            matrix.addElement(matrixRow = new double[vecSize]);
+            int i = 0;
+            do {
+                if (i >= vecSize) {
+                    throw new java.io.IOException(
+                        "Row " + matrix.size() + " is too long"
+                    );
+                }
+                matrixRow[i++] = Double.valueOf(tokenizer.sval).doubleValue();
+            } while (tokenizer.nextToken() == StreamTokenizer.TT_WORD);
+            if (i < vecSize) {
+                throw new java.io.IOException(
+                    "Row " + matrix.size() + " is too short."
+                );
+            }
+        }
+
+        // Get row size and copy the rows into a new 2D array
+        int matrixSize = matrix.size();
+        double[][] A = new double[matrixSize][];
+        matrix.copyInto(A);
         return new Matrix(A);
     }
 
