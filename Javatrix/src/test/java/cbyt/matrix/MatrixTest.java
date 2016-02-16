@@ -1,13 +1,3 @@
-/**
-* @Author: ritashugisha
-* @Date:   2016-02-15T13:24:39-05:00
-* @Email:  ritashugisha@gmail.com
-* @Last modified by:   ritashugisha
-* @Last modified time: 2016-02-15T15:42:45-05:00
-*/
-
-
-
 package cbyt.matrix;
 
 import java.io.File;
@@ -1171,8 +1161,8 @@ public class MatrixTest extends TestCase {
             FileUtils.deleteDirectory(this.testResourcesDir);
         } catch (java.io.IOException exc) {
             this.origErrBuffer.println(
-            "testing resource directory not found at " +
-            this.testResourcesDir.getAbsolutePath()
+                "testing resource directory not found at " +
+                this.testResourcesDir.getAbsolutePath()
             );
         }
     }

@@ -1,13 +1,3 @@
-/**
-* @Author: ritashugisha
-* @Date:   2016-02-15T12:56:44-05:00
-* @Email:  ritashugisha@gmail.com
-* @Last modified by:   ritashugisha
-* @Last modified time: 2016-02-15T14:46:48-05:00
-*/
-
-
-
 package cbyt.matrix;
 
 import java.io.Serializable;
@@ -23,6 +13,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import java.util.Vector;
+
 
 /**
  * Javatrix = Java Matrix class.
@@ -785,7 +776,6 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         }
         // Store matrix first row
         do {
-
             vec.addElement(Double.valueOf(tokenizer.sval));
         } while (tokenizer.nextToken() == StreamTokenizer.TT_WORD);
 
