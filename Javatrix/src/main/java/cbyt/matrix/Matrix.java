@@ -936,4 +936,16 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         }
         return A;
     }
+
+    /**
+     * Matrix trace.
+     * @return Sum of the diagonal elements.
+     */
+    public double trace() {
+        double sum = 0;
+        for (int i = 0; i < Math.min(this.rowLength, this.colLength); i++) {
+            sum += this.matrix[i][i];
+        }
+        return sum;
+    }
 }

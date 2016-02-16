@@ -1075,6 +1075,18 @@ public class MatrixTest extends TestCase {
         }
     }
 
+    public void testTrace() {
+        double[][] A = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+        Matrix mA = new Matrix(A);
+        assertEquals(3.0, mA.trace());
+        double[][] B = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+        Matrix mB = new Matrix(B);
+        assertEquals(0.0, mB.trace());
+        double[][] C = {{1.2, 2.3, 3.4}, {1.3, 2.4, 3.5}, {1.4, 2.5, 3.6}};
+        Matrix mC = new Matrix(C);
+        assertEquals(7.2, mC.trace(), 0.001);
+    }
+
     public void testRead() {
         double[][] A = {{1.0, 2.0, 3.0}, {1.0, 2.0, 3.0}, {1.0, 2.0, 3.0}};
         Matrix mA = new Matrix(A);
