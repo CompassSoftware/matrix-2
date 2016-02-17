@@ -205,8 +205,8 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      */
     public double[][] getArrayCopy(){
         double[][] A = new double[rowLength][colLength];
-        for (int i = 0; i < rowLength; i++) {
-            for (int j = 0; j < colLength; j++) {
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
               A[i][j] = this.matrix[i][j];
             }
         }
@@ -287,10 +287,10 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @return      double[] packed by row
      */
     public double[] getRowPackedCopy() {
-        double[] target = new double[rowLength * colLength];
-        for (int i = 0; i < rowLength; i++) {
-            for (int j = 0; j < colLength; j++) {
-                target[i * colLength + j] = this.matrix[i][j];
+        double[] target = new double[this.rowLength * this.colLength];
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
+                target[i * this.colLength + j] = this.matrix[i][j];
             }
         }
         return target;
@@ -301,10 +301,10 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @return      double[] packed by columns
      */
     public double[] getColPackedCopy() {
-        double[] target = new double[rowLength * colLength];
-        for (int j = 0; j < colLength; j++) {
-            for (int i = 0; i < rowLength; i++) {
-                target[j * rowLength + i] = this.matrix[i][j];
+        double[] target = new double[this.rowLength * this.colLength];
+        for (int j = 0; j < this.colLength; j++) {
+            for (int i = 0; i < this.rowLength; i++) {
+                target[j * this.rowLength + i] = this.matrix[i][j];
             }
         }
         return target;
@@ -475,7 +475,7 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @return   the resulting matrix
      */
     public Matrix plusEquals(Matrix B)  throws java.lang.IllegalArgumentException {
-        // TODO: Fix this, should not modify acting Matrix
+        // FIXME: Fix this? do we really need to return the matrix if we are just acting on ourselves?
         Matrix A = this;
         if (this.colLength != B.getColDimension()) {
             throw new java.lang.IllegalArgumentException(
@@ -516,7 +516,7 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @return   A is the resulting matrix.
      */
     public Matrix timesEquals(double s) {
-        // TODO: Fix this, should not modify acting Matrix
+        // FIXME: Fix this? Do we really need to return the matrix if we are just acting on ourselves?
         Matrix A = this;
         for (int i = 0; i < this.rowLength; i++) {
             for (int j = 0; j < this.colLength; j++) {
@@ -661,14 +661,13 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     * @return   A deep copy of a matrix
     */
     public Matrix copy() {
-        double[][] A = new double[rowLength][colLength];
-        for (int i = 0; i < rowLength; i++) {
-            for (int j = 0; j < colLength; j++) {
+        double[][] A = new double[this.rowLength][this.colLength];
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
                 A[i][j] = this.matrix[i][j];
             }
         }
-        Matrix m = new Matrix(A, rowLength, colLength);
-        return m;
+        return new Matrix(A, this.rowLength, this.colLength);
     }
 
     /**
@@ -881,8 +880,8 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     public Matrix uminus() {
         Matrix A = this;
         Matrix B = new Matrix(this.rowLength, this.colLength);
-        for (int i = 0; i < rowLength; i++) {
-            for (int j = 0; j < colLength; j++) {
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
                 B.matrix[i][j] = -1 * A.matrix[i][j];
             }
         }
@@ -895,21 +894,20 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @return  A - B
      */
     public Matrix minus(Matrix B) throws java.lang.IllegalArgumentException {
-        Matrix A = this;
-        if (A.getColDimension() != B.getColDimension()) {
+        if (this.colLength != B.getColDimension()) {
             throw new java.lang.IllegalArgumentException(
                 "Column dimensions must be equal."
             );
         }
-        if (A.getRowDimension() != B.getRowDimension()) {
+        if (this.rowLength != B.getRowDimension()) {
             throw new java.lang.IllegalArgumentException(
                 "Row dimensions must be equal."
             );
         }
         Matrix C = new Matrix(this.rowLength, this.colLength);
-        for (int i = 0; i < rowLength; i++) {
-            for (int j = 0; j < colLength; j++) {
-                C.matrix[i][j] = A.matrix[i][j] - B.matrix[i][j];
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
+                C.matrix[i][j] = this.matrix[i][j] - B.matrix[i][j];
             }
         }
         return C;
@@ -921,6 +919,7 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @return   A - B
      */
     public Matrix minusEquals(Matrix B) throws java.lang.IllegalArgumentException {
+        // FIXME: Fix this? Do we really need to return the matrix if we are just acting on ourselves?
         Matrix A = this;
         if (A.getColDimension() != B.getColDimension()) {
             throw new java.lang.IllegalArgumentException(
