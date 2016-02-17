@@ -460,11 +460,10 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @return   the resulting matrix
      */
     public Matrix plus(Matrix B) {
-        Matrix A = this;
         Matrix C = new Matrix(this.rowLength, this.colLength);
-        for (int i = 0; i < rowLength; i++) {
-            for (int j = 0; j < colLength; j++) {
-                C.matrix[i][j] = A.matrix[i][j] + B.matrix[i][j];
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
+                C.matrix[i][j] = this.matrix[i][j] + B.matrix[i][j];
             }
         }
         return C;
@@ -476,19 +475,20 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @return   the resulting matrix
      */
     public Matrix plusEquals(Matrix B)  throws java.lang.IllegalArgumentException {
+        // TODO: Fix this, should not modify acting Matrix
         Matrix A = this;
-        if (A.getColDimension() != B.getColDimension()) {
+        if (this.colLength != B.getColDimension()) {
             throw new java.lang.IllegalArgumentException(
                "Column dimensions must be equal"
             );
         }
-        if (A.getRowDimension() != B.getRowDimension()) {
+        if (this.rowLength != B.getRowDimension()) {
             throw new java.lang.IllegalArgumentException(
                "Row dimensions must be equal"
             );
         }
-        for (int i = 0; i < rowLength; i++) {
-             for (int j = 0; j < colLength; j++) {
+        for (int i = 0; i < this.rowLength; i++) {
+             for (int j = 0; j < this.colLength; j++) {
                  A.matrix[i][j] = A.matrix[i][j] + B.matrix[i][j];
              }
         }
@@ -501,11 +501,10 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @return   C is the resulting matrix.
      */
     public Matrix times(double s) {
-        Matrix A = this;
         Matrix C = new Matrix(this.rowLength, this.colLength);
         for (int i = 0; i < this.rowLength; i++) {
             for (int j = 0; j < this.colLength; j++) {
-                C.matrix[i][j] = s * A.matrix[i][j];
+                C.matrix[i][j] = s * this.matrix[i][j];
             }
         }
         return C;
@@ -517,8 +516,8 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @return   A is the resulting matrix.
      */
     public Matrix timesEquals(double s) {
+        // TODO: Fix this, should not modify acting Matrix
         Matrix A = this;
-
         for (int i = 0; i < this.rowLength; i++) {
             for (int j = 0; j < this.colLength; j++) {
                 A.matrix[i][j] = s * A.matrix[i][j];
