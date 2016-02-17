@@ -30,6 +30,11 @@ import java.util.Vector;
 public class Matrix implements java.io.Serializable, java.lang.Cloneable {
 
     /**
+     * Serial UID automatically used by java.io.Serializable.
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
      * Class scoped matrix storage.
      */
     private double[][] matrix;
@@ -142,7 +147,6 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @param   m Number of rows.
      * @param   n Number of columns.
      */
-
     public Matrix(int m, int n) throws java.lang.IllegalArgumentException {
         if(m < 0)
             throw new java.lang.IllegalArgumentException(
@@ -452,7 +456,7 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
 
     /**
      * Adding two matrices and return a matrix
-     * @param  B a matrix
+     * @param    B a matrix
      * @return   the resulting matrix
      */
     public Matrix plus(Matrix B) {
@@ -468,8 +472,8 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
 
     /**
      * Adding two matrices, store the result in one of the original matrices and return it
-     * @param  B a matrix
-     * @return   A the resulting matrix
+     * @param    B a matrix
+     * @return   the resulting matrix
      */
     public Matrix plusEquals(Matrix B)  throws java.lang.IllegalArgumentException {
         Matrix A = this;
@@ -492,8 +496,8 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     }
 
     /**
-     * Multiplya matrix by a scalar.
-     * @param  s a scalar value
+     * Multiply a matrix by a scalar.
+     * @param    s a scalar value
      * @return   C is the resulting matrix.
      */
     public Matrix times(double s) {
@@ -508,8 +512,8 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     }
 
     /**
-     * Multiplya matrix by a scalar.
-     * @param  s a scalar value
+     * Multiply a matrix by a scalar.
+     * @param    s a scalar value
      * @return   A is the resulting matrix.
      */
     public Matrix timesEquals(double s) {
@@ -676,13 +680,12 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         return this.copy();
     }
 
-
-     /**
-      * Generate identity matrix.
-      * @param   m Number of rows.
-      * @param   n Number of columns.
-      * @return  An m-by-n matrix with ones on the diagonal and zeros elseware.
-      */
+    /**
+     * Generate identity matrix.
+     * @param   m Number of rows.
+     * @param   n Number of columns.
+     * @return  An m-by-n matrix with ones on the diagonal and zeros elseware.
+     */
     public static Matrix identity(int m, int n) throws java.lang.IllegalArgumentException {
         if (m < 0) {
             throw new java.lang.IllegalArgumentException(
@@ -730,6 +733,7 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
             return new Matrix(0, 0);
         }
     }
+
     /**
     * Fill a matrix with random elements
     * @return a matrix with random elements

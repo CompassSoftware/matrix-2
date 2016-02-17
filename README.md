@@ -5,6 +5,8 @@ This project intends to build a Matrix class for Java.
 Because I despise the [Eclipse IDE](https://eclipse.org/downloads/), I am doing this project through command line [Git](https://git-scm.com/) with [Atom.io](https://atom.io/).
 This project is [Maven](https://maven.apache.org/) based and requires maven to be installed in order to package, test, run, etc...
 
+You can find our Pivotal Tracker storyboard [here](https://www.pivotaltracker.com/n/projects/1519179).
+
 ## Install Maven
 
 To install Maven, I suggest you follow the official guide: <https://maven.apache.org/install.html>.
@@ -24,10 +26,11 @@ All of the packaged resources get thrown into a new directory named `target/`.
 
 ## Running this Project
 
-**After packaging this project**, you will be able to run the Hello World application using the packaged **shaded** jar.
+**After packaging this project**, you can run the Matrix usage example class using the packaged **shaded** jar.
 
 ```bash
-java -cp ./target/Javatrix-1.0-SNAPSHOT-shaded.jar cbyt.matrix.Matrix
+javac -cp ./target/Javatrix-1.0-SNAPSHOT-shaded.jar ./examples/MatrixExample.java
+java -cp .:./target/Javatrix-1.0-SNAPSHOT-shaded.jar examples.MatrixExample
 ```
 
 ## Testing this Project
