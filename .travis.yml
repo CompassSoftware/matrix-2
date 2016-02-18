@@ -8,3 +8,5 @@ script:
     - cd ./Javatrix && mvn test -Dmaven.javadoc.skip=true && cd ..
 after_success:
     - codecov
+notifications:
+    email: false
