@@ -460,13 +460,13 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @return   the resulting matrix
      */
     public Matrix plus(Matrix B) {
-        Matrix C = new Matrix(this.rowLength, this.colLength);
+        double[][] target = new double[this.rowLength][this.colLength];
         for (int i = 0; i < this.rowLength; i++) {
             for (int j = 0; j < this.colLength; j++) {
-                C.matrix[i][j] = this.matrix[i][j] + B.matrix[i][j];
+                target[i][j] = this.matrix[i][j] + B.matrix[i][j];
             }
         }
-        return C;
+        return new Matrix(target);
     }
 
     /**
@@ -475,24 +475,13 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @return   the resulting matrix
      */
     public Matrix plusEquals(Matrix B)  throws java.lang.IllegalArgumentException {
-        // FIXME: Fix this? do we really need to return the matrix if we are just acting on ourselves?
-        Matrix A = this;
-        if (this.colLength != B.getColDimension()) {
-            throw new java.lang.IllegalArgumentException(
-               "Column dimensions must be equal"
-            );
-        }
-        if (this.rowLength != B.getRowDimension()) {
-            throw new java.lang.IllegalArgumentException(
-               "Row dimensions must be equal"
-            );
-        }
+        Matrix C = this.plus(B);
         for (int i = 0; i < this.rowLength; i++) {
-             for (int j = 0; j < this.colLength; j++) {
-                 A.matrix[i][j] = A.matrix[i][j] + B.matrix[i][j];
-             }
+            for (int j = 0; j < this.colLength; j++) {
+                this.matrix[i][j] = C.matrix[i][j];
+            }
         }
-        return A;
+        return C;
     }
 
     /**

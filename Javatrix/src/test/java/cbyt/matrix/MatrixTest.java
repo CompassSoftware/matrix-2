@@ -370,64 +370,58 @@ public class MatrixTest extends TestCase {
     }
 
     public void testPlus() {
-        double[][] matrix1 = {
-            {1,1,1},
-            {1,1,1},
-            {1,1,1}
+        double[][] a, b, c;
+        Matrix A, B, C;
+        a = new double[][] {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
         };
-        Matrix A = new Matrix(matrix1);
-
-        double[][] matrix2 = {
-            {1,1,1},
-            {1,1,1},
-            {1,1,1}
+        b = new double[][] {
+            {10,11,12},
+            {13,14,15},
+            {16,17,18}
         };
-        Matrix B = new Matrix(matrix2);
-
-        double[][] matrix3 = {
-            {2,2,2},
-            {2,2,2},
-            {2,2,2}
+        c = new double[][] {
+            {11,13,15},
+            {17,19,21},
+            {23,25,27}
         };
-        Matrix D = new Matrix(matrix3);
-        Matrix C = A.plus(B);
-        assertEquals(C.getColDimension(), B.getColDimension());
-        assertEquals(C.getColDimension(), A.getColDimension());
-        assertEquals(C.getRowDimension(), B.getRowDimension());
-        assertEquals(C.getRowDimension(), A.getRowDimension());
-
-        assertTrue(Arrays.deepEquals(D.getArray(), D.getArray()));
-        assertEquals(D.getColDimension(), C.getColDimension());
-        assertEquals(D.getRowDimension(), C.getRowDimension());
-
+        A = new Matrix(a);
+        B = new Matrix(b);
+        C = A.plus(B);
+        assertEquals(c.length, C.getRowDimension());
+        assertEquals(c[0].length, C.getColDimension());
+        assertTrue(Arrays.deepEquals(c, C.getArray()));
     }
 
     public void testPlusEquals() {
-        double[][] matrix1 = {
-            {1,1,1},
-            {1,1,1},
-            {1,1,1}
+        double[][] a, b, c;
+        Matrix A, B, C;
+        a = new double[][] {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
         };
-        Matrix A = new Matrix(matrix1);
-
-        double[][] matrix2 = {
-            {1,1,1},
-            {1,1,1},
-            {1,1,1}
+        b = new double[][] {
+            {10,11,12},
+            {13,14,15},
+            {16,17,18}
         };
-        Matrix B = new Matrix(matrix2);
-
-        double[][] matrix3 = {
-            {2,2,2},
-            {2,2,2},
-            {2,2,2}
+        c = new double[][] {
+            {11,13,15},
+            {17,19,21},
+            {23,25,27}
         };
-        Matrix D = new Matrix(matrix3);
-        A.plusEquals(B);
-
-        assertEquals(A.getColDimension(), B.getColDimension());
-        assertEquals(A.getRowDimension(), B.getRowDimension());
-        assertTrue(Arrays.deepEquals(A.getArray(), D.getArray()));
+        A = new Matrix(a);
+        B = new Matrix(b);
+        C = A.plusEquals(B);
+        assertEquals(c.length, C.getRowDimension());
+        assertEquals(c[0].length, C.getColDimension());
+        assertTrue(Arrays.deepEquals(c, C.getArray()));
+        assertEquals(c.length, A.getRowDimension());
+        assertEquals(c[0].length, A.getColDimension());
+        assertTrue(Arrays.deepEquals(c, A.getArray()));
     }
 
     public void testTimesScalar() {
