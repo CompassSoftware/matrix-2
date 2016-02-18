@@ -2,6 +2,11 @@
 
 This project intends to build a Matrix class for Java.
 
+[![Build Status](https://travis-ci.org/CompassSoftware/matrix-2.svg?branch=master)](https://travis-ci.org/CompassSoftware/matrix-2)
+[![codecov.io](https://codecov.io/github/CompassSoftware/matrix-2/coverage.svg?branch=master)](https://codecov.io/github/CompassSoftware/matrix-2?branch=master)
+
+---
+
 Because I despise the [Eclipse IDE](https://eclipse.org/downloads/), I am doing this project through command line [Git](https://git-scm.com/) with [Atom.io](https://atom.io/).
 This project is [Maven](https://maven.apache.org/) based and requires maven to be installed in order to package, test, run, etc...
 
