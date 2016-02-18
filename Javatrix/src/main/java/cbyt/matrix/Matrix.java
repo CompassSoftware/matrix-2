@@ -490,13 +490,13 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @return   C is the resulting matrix.
      */
     public Matrix times(double s) {
-        Matrix C = new Matrix(this.rowLength, this.colLength);
+        double[][] target = new double[this.rowLength][this.colLength];
         for (int i = 0; i < this.rowLength; i++) {
             for (int j = 0; j < this.colLength; j++) {
-                C.matrix[i][j] = s * this.matrix[i][j];
+                target[i][j] = this.matrix[i][j] * s;
             }
         }
-        return C;
+        return new Matrix(target);
     }
 
     /**
@@ -505,14 +505,13 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @return   A is the resulting matrix.
      */
     public Matrix timesEquals(double s) {
-        // FIXME: Fix this? Do we really need to return the matrix if we are just acting on ourselves?
-        Matrix A = this;
+        Matrix C = this.times(s);
         for (int i = 0; i < this.rowLength; i++) {
             for (int j = 0; j < this.colLength; j++) {
-                A.matrix[i][j] = s * A.matrix[i][j];
+                this.matrix[i][j] = C.matrix[i][j];
             }
         }
-        return A;
+        return C;
     }
 
     /**

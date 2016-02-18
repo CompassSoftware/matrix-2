@@ -425,45 +425,50 @@ public class MatrixTest extends TestCase {
     }
 
     public void testTimesScalar() {
-        double[][] matrix1 = {
-            {1,1,1},
-            {1,1,1},
-            {1,1,1}
+        double[][] a, c;
+        double b;
+        Matrix A, B, C;
+        a = new double[][] {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
         };
-        Matrix A = new Matrix(matrix1);
-
-        double[][] matrix2 = {
-            {2,2,2},
-            {2,2,2},
-            {2,2,2}
+        b = 2;
+        c = new double[][] {
+            {2, 4, 6},
+            {8, 10, 12},
+            {14, 16, 18}
         };
-        Matrix B = new Matrix(matrix2);
-
-        Matrix C = A.times(2);
-        assertEquals(C.getRowDimension(), B.getRowDimension());
-        assertEquals(C.getColDimension(), B.getColDimension());
-        assertTrue(Arrays.deepEquals(C.getArray(), B.getArray()));
+        A = new Matrix(a);
+        C = A.times(b);
+        assertEquals(c.length, C.getRowDimension());
+        assertEquals(c[0].length, C.getColDimension());
+        assertTrue(Arrays.deepEquals(c, C.getArray()));
     }
 
-    public void testTimesEquals() {
-        double[][] matrix1 = {
-            {1,1,1},
-            {1,1,1},
-            {1,1,1}
+    public void testTimesScalarEquals() {
+        double[][] a, c;
+        double b;
+        Matrix A, B, C;
+        a = new double[][] {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
         };
-        Matrix A = new Matrix(matrix1);
-
-        double[][] matrix2 = {
-            {2,2,2},
-            {2,2,2},
-            {2,2,2}
+        b = 2;
+        c = new double[][] {
+            {2, 4, 6},
+            {8, 10, 12},
+            {14, 16, 18}
         };
-        Matrix B = new Matrix(matrix2);
-
-        A.timesEquals(2);
-        assertEquals(A.getRowDimension(), B.getRowDimension());
-        assertEquals(A.getColDimension(), B.getColDimension());
-        assertTrue(Arrays.deepEquals(A.getArray(), B.getArray()));
+        A = new Matrix(a);
+        C = A.timesEquals(b);
+        assertEquals(c.length, C.getRowDimension());
+        assertEquals(c[0].length, C.getColDimension());
+        assertTrue(Arrays.deepEquals(c, C.getArray()));
+        assertEquals(c.length, A.getRowDimension());
+        assertEquals(c[0].length, A.getColDimension());
+        assertTrue(Arrays.deepEquals(c, A.getArray()));
     }
 
     public void testUMinus() {
