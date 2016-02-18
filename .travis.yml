@@ -1,0 +1,11 @@
+language: java
+sudo: false
+jdk:
+    - oraclejdk8
+    - oraclejdk7
+before_install:
+    - pip install --user codecov
+script:
+    - cd ./Javatrix && mvn test -Dmaven.javadoc.skip=true && cd ..
+after_success:
+    - codecov
