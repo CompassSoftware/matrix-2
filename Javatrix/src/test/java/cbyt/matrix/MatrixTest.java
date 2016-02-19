@@ -145,6 +145,21 @@ public class MatrixTest extends TestCase {
         assertTrue(
             Arrays.deepEquals(A, m.getArray())
         );
+        double[][] AInvalid = {{1, 2, 3}, {1, 2, 3}, {1, 2, 3}};
+        try {
+            Matrix mInvalid = new Matrix(AInvalid, 3, -1);
+            org.junit.Assert.fail("Constructor 2 did not throw an exception given an invalid array.");
+        } catch (Exception exc) {
+            assertEquals(exc.getClass(), java.lang.IllegalArgumentException.class);
+            assertEquals(exc.getMessage(), "Col dimension must be non-negative");
+        }
+        try {
+            Matrix mInvalid = new Matrix(AInvalid, -1, 3);
+            org.junit.Assert.fail("Constructor 2 did not throw an exception given an invalid array.");
+        } catch (Exception exc) {
+            assertEquals(exc.getClass(), java.lang.IllegalArgumentException.class);
+            assertEquals(exc.getMessage(), "Row dimension must be non-negative");
+        }
     }
 
     public void testConstructor3() {
