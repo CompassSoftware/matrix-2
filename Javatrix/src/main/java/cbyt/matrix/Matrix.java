@@ -866,14 +866,13 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @return returns -A
      */
     public Matrix uminus() {
-        Matrix A = this;
-        Matrix B = new Matrix(this.rowLength, this.colLength);
+        double[][] target = new double[this.rowLength][this.colLength];
         for (int i = 0; i < this.rowLength; i++) {
             for (int j = 0; j < this.colLength; j++) {
-                B.matrix[i][j] = -1 * A.matrix[i][j];
+                target[i][j] = -(this.matrix[i][j]);
             }
         }
-        return B;
+        return new Matrix(target);
     }
 
     /**
