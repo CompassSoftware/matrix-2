@@ -15,10 +15,12 @@ import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.lang.IllegalArgumentException;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.junit.Assert;
 import org.apache.commons.io.FileUtils;
 
 
@@ -124,6 +126,15 @@ public class MatrixTest extends TestCase {
         );
         assertEquals(m.getRowDimension(), 0);
         assertEquals(m.getColDimension(), 0);
+
+        double[][] AInvalid = {{1, 2, 3}, {1, 2}, {1, 2, 3}};
+        try {
+            Matrix mInvalid = new Matrix(AInvalid);
+            org.junit.Assert.fail("Constructor 1 did not throw an exception given an invalid array.");
+        } catch (Exception exc) {
+            assertEquals(exc.getClass(), java.lang.IllegalArgumentException.class);
+            assertEquals(exc.getMessage(), "All rows must have the same length");
+        }
     }
 
     public void testConstructor2() {
