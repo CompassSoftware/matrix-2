@@ -866,14 +866,13 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @return returns -A
      */
     public Matrix uminus() {
-        Matrix A = this;
-        Matrix B = new Matrix(this.rowLength, this.colLength);
+        double[][] target = new double[this.rowLength][this.colLength];
         for (int i = 0; i < this.rowLength; i++) {
             for (int j = 0; j < this.colLength; j++) {
-                B.matrix[i][j] = -1 * A.matrix[i][j];
+                target[i][j] = -(this.matrix[i][j]);
             }
         }
-        return B;
+        return new Matrix(target);
     }
 
     /**
@@ -882,23 +881,23 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @return  A - B
      */
     public Matrix minus(Matrix B) throws java.lang.IllegalArgumentException {
-        if (this.colLength != B.getColDimension()) {
+        if (this.colLength != B.colLength) {
             throw new java.lang.IllegalArgumentException(
                 "Column dimensions must be equal."
             );
         }
-        if (this.rowLength != B.getRowDimension()) {
+        if (this.rowLength != B.rowLength) {
             throw new java.lang.IllegalArgumentException(
                 "Row dimensions must be equal."
             );
         }
-        Matrix C = new Matrix(this.rowLength, this.colLength);
+        double[][] target = new double[this.rowLength][this.colLength];
         for (int i = 0; i < this.rowLength; i++) {
             for (int j = 0; j < this.colLength; j++) {
-                C.matrix[i][j] = this.matrix[i][j] - B.matrix[i][j];
+                target[i][j] = this.matrix[i][j] - B.matrix[i][j];
             }
         }
-        return C;
+        return new Matrix(target);
     }
 
     /**
@@ -907,24 +906,23 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
      * @return   A - B
      */
     public Matrix minusEquals(Matrix B) throws java.lang.IllegalArgumentException {
-        // FIXME: Fix this? Do we really need to return the matrix if we are just acting on ourselves?
-        Matrix A = this;
-        if (A.getColDimension() != B.getColDimension()) {
+        if (this.colLength != B.colLength) {
             throw new java.lang.IllegalArgumentException(
                 "Column dimensions must be equal."
             );
         }
-        if (A.getRowDimension() != B.getRowDimension()) {
+        if (this.rowLength != B.rowLength) {
             throw new java.lang.IllegalArgumentException(
                 "Row dimensions must be equal."
             );
         }
-        for (int i = 0; i < rowLength; i++) {
-            for (int j = 0; j < colLength; j++) {
-                A.matrix[i][j] = A.matrix[i][j] - B.matrix[i][j];
+        Matrix C = this.minus(B);
+        for (int i = 0; i < this.rowLength; i++) {
+            for (int j = 0; j < this.colLength; j++) {
+                this.matrix[i][j] = C.matrix[i][j];
             }
         }
-        return A;
+        return C;
     }
 
     /**
