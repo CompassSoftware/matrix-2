@@ -226,6 +226,20 @@ public class MatrixTest extends TestCase {
         );
         assertEquals(3, m.getRowDimension());
         assertEquals(2, m.getColDimension());
+        try {
+            Matrix mInvalid = new Matrix(-1, 2, 3);
+            org.junit.Assert.fail("Constructor 5 did not throw an exception given an invalid array.");
+        } catch (Exception exc) {
+            assertEquals(exc.getClass(), java.lang.IllegalArgumentException.class);
+            assertEquals(exc.getMessage(), "Row dimension must be non-negative");
+        }
+        try {
+            Matrix mInvalid = new Matrix(2, -1, 3);
+            org.junit.Assert.fail("Constructor 5 did not throw an exception given an invalid array.");
+        } catch (Exception exc) {
+            assertEquals(exc.getClass(), java.lang.IllegalArgumentException.class);
+            assertEquals(exc.getMessage(), "Col dimension must be non-negative");
+        }
     }
 
     public void testGetArray() {
