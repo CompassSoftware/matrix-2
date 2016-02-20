@@ -286,6 +286,14 @@ public class MatrixTest extends TestCase {
         assertTrue(Arrays.deepEquals(A, m.getArray()));
         assertEquals(0, m.getRowDimension());
         assertEquals(0, m.getColDimension());
+        double[][] aInvalid = {{1, 2, 3}, {1, 2}, {1, 2, 3}};
+        try {
+            Matrix mInvalid = Matrix.constructWithCopy(aInvalid);
+            org.junit.Assert.fail("ConstructWithCopy did not throw an exception given an invalid array.");
+        } catch (Exception exc) {
+            assertEquals(exc.getClass(), java.lang.IllegalArgumentException.class);
+            assertEquals(exc.getMessage(), "All rows must have the same length.");
+        }
     }
 
     public void testCopy() {
