@@ -332,6 +332,20 @@ public class MatrixTest extends TestCase {
         assertTrue(Arrays.deepEquals(A, m.getArray()));
         assertEquals(0, m.getRowDimension());
         assertEquals(0, m.getColDimension());
+        try {
+            Matrix mInvalid = Matrix.identity(-1, 3);
+            org.junit.Assert.fail("Identity did not throw an exception given an invalid array.");
+        } catch (Exception exc) {
+            assertEquals(exc.getClass(), java.lang.IllegalArgumentException.class);
+            assertEquals(exc.getMessage(), "Row dimension must be non-negative");
+        }
+        try {
+            Matrix mInvalid = Matrix.identity(3, -1);
+            org.junit.Assert.fail("Identity did not throw an exception given an invalid array.");
+        } catch (Exception exc) {
+            assertEquals(exc.getClass(), java.lang.IllegalArgumentException.class);
+            assertEquals(exc.getMessage(), "Col dimension must be non-negative");
+        }
     }
 
     public void testRandom() {
