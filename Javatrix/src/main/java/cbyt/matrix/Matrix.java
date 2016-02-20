@@ -732,7 +732,7 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
         }
         if (n < 0) {
             throw new java.lang.IllegalArgumentException(
-                "Column dimension must be non-negative"
+                "Col dimension must be non-negative"
             );
         }
         double[][] A = new double[m][n];

@@ -365,6 +365,20 @@ public class MatrixTest extends TestCase {
                 assertNotNull(m.get(i, j));
             }
         }
+        try {
+            Matrix mInvalid = Matrix.random(-1, 3);
+            org.junit.Assert.fail("Random did not throw an exception given an invalid array.");
+        } catch (Exception exc) {
+            assertEquals(exc.getClass(), java.lang.IllegalArgumentException.class);
+            assertEquals(exc.getMessage(), "Row dimension must be non-negative");
+        }
+        try {
+            Matrix mInvalid = Matrix.random(3, -1);
+            org.junit.Assert.fail("Random did not throw an exception given an invalid array.");
+        } catch (Exception exc) {
+            assertEquals(exc.getClass(), java.lang.IllegalArgumentException.class);
+            assertEquals(exc.getMessage(), "Col dimension must be non-negative");
+        }
     }
 
     public void testGetMatrix1() {
