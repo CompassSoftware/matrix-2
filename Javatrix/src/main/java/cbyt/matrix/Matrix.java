@@ -908,7 +908,7 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
     public Matrix minusEquals(Matrix B) throws java.lang.IllegalArgumentException {
         if (this.colLength != B.colLength) {
             throw new java.lang.IllegalArgumentException(
-                "Column dimensions must be equal."
+                "Col dimensions must be equal."
             );
         }
         if (this.rowLength != B.rowLength) {

@@ -681,6 +681,33 @@ public class MatrixTest extends TestCase {
         assertEquals(C.getRowDimension(), B.getRowDimension());
         assertEquals(C.getRowDimension(), A.getRowDimension());
         assertTrue(Arrays.deepEquals(C.getArray(), A.getArray()));
+        try {
+            double[][] aInvalid1 = {
+                {1,1,1,1},
+                {1,1,1,1},
+                {1,1,1,1}
+            };
+            Matrix mInvalid1 = new Matrix(aInvalid1);
+            A = A.minus(mInvalid1);
+            org.junit.Assert.fail("Minus did not throw an exception given an invalid array.");
+        } catch (Exception exc) {
+            assertEquals(exc.getClass(), java.lang.IllegalArgumentException.class);
+            assertEquals(exc.getMessage(), "Col dimensions must be equal.");
+        }
+        try {
+            double[][] aInvalid2 = {
+                {1,1,1},
+                {1,1,1},
+                {1,1,1},
+                {1,1,1}
+            };
+            Matrix mInvalid2 = new Matrix(aInvalid2);
+            A = A.minus(mInvalid2);
+            org.junit.Assert.fail("Minus did not throw an exception given an invalid array.");
+        } catch (Exception exc) {
+            assertEquals(exc.getClass(), java.lang.IllegalArgumentException.class);
+            assertEquals(exc.getMessage(), "Row dimensions must be equal.");
+        }
     }
 
     public void testSet() {
