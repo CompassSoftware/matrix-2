@@ -688,7 +688,7 @@ public class MatrixTest extends TestCase {
                 {1,1,1,1}
             };
             Matrix mInvalid1 = new Matrix(aInvalid1);
-            A = A.minus(mInvalid1);
+            A = A.minusEquals(mInvalid1);
             org.junit.Assert.fail("Minus did not throw an exception given an invalid array.");
         } catch (Exception exc) {
             assertEquals(exc.getClass(), java.lang.IllegalArgumentException.class);
@@ -702,7 +702,7 @@ public class MatrixTest extends TestCase {
                 {1,1,1}
             };
             Matrix mInvalid2 = new Matrix(aInvalid2);
-            A = A.minus(mInvalid2);
+            A = A.minusEquals(mInvalid2);
             org.junit.Assert.fail("Minus did not throw an exception given an invalid array.");
         } catch (Exception exc) {
             assertEquals(exc.getClass(), java.lang.IllegalArgumentException.class);
