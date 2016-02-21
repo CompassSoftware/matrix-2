@@ -12,6 +12,19 @@ This project is [Maven](https://maven.apache.org/) based and requires maven to b
 
 You can find our Pivotal Tracker storyboard [here](https://www.pivotaltracker.com/n/projects/1519179).
 
+## Releases
+
+We provide prepackaged shaded and non-shaded jars of this project every release cycle.
+The difference between shaded and non-shaded jars is that shaded jars contain the required maven dependencies prepackaged alongside the base project classes.
+Non-shaded jars, however, **only** contain our project's classes.
+Shaded jars are meant for use in projects where dependency duplication doesn't matter.
+
+The most recent release cycle ended **2016-02-21**.
+
+|Version|Released|Updated|Shaded|Non-Shaded|
+|:------|:-------|:------|:-----|:-------|
+|1.0|2016-02-21|2016-02-21|[Download](https://mega.nz/#!w40DEDgb!rN-Ja50C-RizONFbcSLU1NEaam3mi0Eu-PoEKMcSLdw)|[Download](https://mega.nz/#!Yxd0wIqB!7WJdMTB8EbaCkQMhpq3pXdY0pEf7VEkM6kkubM-0E4o)|
+
 ## Install Maven
 
 To install Maven, I suggest you follow the official guide: <https://maven.apache.org/install.html>.
@@ -51,7 +64,7 @@ mvn test
 
 ## Deliver this Project
 
-After prompting the `mvn` utility to package this project, distribute the `Javatrix-1.0-SNAPSHOT-shaded.jar` inside the `target/` directory.
+After prompting the `mvn` utility to package this project, distribute the `Javatrix-X.X-SNAPSHOT-shaded.jar` inside the `target/` directory.
 This jar contains the required dependencies and project classes required for running the project.
 
 In order to run the project see [Running this Project](#running-this-project)
