@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -16,7 +17,6 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.lang.IllegalArgumentException;
-import java.io.IOException;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -1318,13 +1318,78 @@ public class MatrixTest extends TestCase {
                         }
                     } catch (java.io.FileNotFoundException exc) {
                         this.origErrBuffer.println(
-                            "could not build test file to " +
+                            "could not build test file to '" +
                             this.testResourcesDir.getAbsolutePath() + "'"
                         );
                     }
                 }
             }
         }
+
+        File testInvalidEOF = new File(
+            this.testResourcesDir + File.separator + "testInvalidEOF.txt"
+        );
+        File testInvalidLongRow = new File(
+            this.testResourcesDir + File.separator + "testInvalidLongRow.txt"
+        );
+        File testInvalidShortRow = new File(
+            this.testResourcesDir + File.separator + "testInvalidShortRow.txt"
+        );
+        try {
+            PrintWriter testEOFWriter = new PrintWriter(testInvalidEOF);
+            testEOFWriter.println();
+            testEOFWriter.close();
+            try {
+                Matrix mInvalid = Matrix.read(
+                    new BufferedReader(new FileReader(testInvalidEOF)
+                ));
+                org.junit.Assert.fail("Read did not throw exception given empty file.");
+            } catch (Exception exc) {
+                assertEquals(exc.getClass(), java.io.IOException.class);
+                assertEquals(exc.getMessage(), "Unexpected EOF while reading matrix");
+            }
+
+            PrintWriter testLongRowWriter = new PrintWriter(testInvalidLongRow);
+            testLongRowWriter.println();
+            testLongRowWriter.println(" 1 2");
+            testLongRowWriter.println(" 1 2 3");
+            testLongRowWriter.println(" 1 2");
+            testLongRowWriter.println();
+            testLongRowWriter.close();
+            try {
+                Matrix mInvalid = Matrix.read(
+                    new BufferedReader(new FileReader(testInvalidLongRow)
+                ));
+                org.junit.Assert.fail("Read did not throw exception given invalid file with too long row.");
+            } catch (Exception exc) {
+                assertEquals(exc.getClass(), java.io.IOException.class);
+                assertEquals(exc.getMessage(), "Row 2 is too long");
+            }
+
+            PrintWriter testShortRowWriter = new PrintWriter(testInvalidShortRow);
+            testShortRowWriter.println();
+            testShortRowWriter.println(" 1 2 3");
+            testShortRowWriter.println(" 1 2");
+            testShortRowWriter.println(" 1 2 3");
+            testShortRowWriter.println();
+            testShortRowWriter.close();
+            try {
+                Matrix mInvalid = Matrix.read(
+                    new BufferedReader(new FileReader(testInvalidShortRow)
+                ));
+                org.junit.Assert.fail("Read did not throw exception given invalid file with too short row.");
+            } catch (Exception exc) {
+                assertEquals(exc.getClass(), java.io.IOException.class);
+                assertEquals(exc.getMessage(), "Row 2 is too short");
+            }
+
+        } catch (java.io.FileNotFoundException exc) {
+            this.origErrBuffer.println(
+                "could not find built invalid testing file in '" +
+                this.testResourcesDir + "'"
+            );
+        }
+
         // Remove the test resource directory
         // NOTE: Utilizes the org.apache.commons.io.FileUtils dependency
         try {

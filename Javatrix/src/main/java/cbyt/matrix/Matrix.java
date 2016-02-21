@@ -793,7 +793,7 @@ public class Matrix implements java.io.Serializable, java.lang.Cloneable {
             } while (tokenizer.nextToken() == StreamTokenizer.TT_WORD);
             if (i < vecSize) {
                 throw new java.io.IOException(
-                    "Row " + matrix.size() + " is too short."
+                    "Row " + matrix.size() + " is too short"
                 );
             }
         }
